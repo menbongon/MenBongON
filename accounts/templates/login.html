@@ -1,0 +1,7 @@
+<h1>login.html</h1>
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %} 
+
+    <input class="btn btn-primary" type="submit" value="Login">
+</form>
+

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'menbongapp.apps.MenbongappConfig',
     'mypage.apps.MypageConfig',
+    'posts.apps.PostsConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -122,9 +124,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'menbongapp', 'static'),
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
