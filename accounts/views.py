@@ -8,8 +8,8 @@ User = get_user_model()
 # Create your views here.
 def signup(request):
     if request.method == "POST":
-        if request.POST["password1"] == request.POST["password2"]:
-            user = User.objects.create_user(username=request.POST["username"], password=request.POST["password1"])
+        if request.POST["password"] == request.POST["password_check"]:
+            user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
             auth.login(request, user)
             return redirect('home')
 
