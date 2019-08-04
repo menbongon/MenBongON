@@ -6,9 +6,6 @@ from django.contrib import auth
 User = get_user_model()
 
 # Create your views here.
-def first(request):
-    return render(request, 'first.html')
-
 def signup(request):
     if request.method == "POST":
         if request.POST["password1"] == request.POST["password2"]:
@@ -33,9 +30,4 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('first')
-
-def home(request):
-    username=request.user.username
-    password=request.user.password
-    return render(request, 'home.html',{'username':username,'password':password})
+    return redirect('intro')

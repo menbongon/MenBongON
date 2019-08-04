@@ -1,5 +1,4 @@
-로그인
-
+<h1>login.html</h1>
 <form method="POST" action="{% url 'login' %}">
     {% csrf_token %}
     아이디
@@ -11,5 +10,5 @@
     <input name="password" type="password" value="">
     <br>
     <br>
-    <input type="submit" value="완료">
+    <input class="btn btn-primary" type="submit" value="Login">
 </form>
