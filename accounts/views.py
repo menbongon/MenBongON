@@ -25,9 +25,9 @@ def login(request):
             auth.login(request, user)
             return redirect('home')
         else:
-            return render(request, 'login.html',{'error':'wrong~'})
+            return render(request, 'intro.html',{'error':'wrong~'})
     else:
-        return render(request, 'login.html')
+        return render(request, 'intro.html')
 
 def logout(request):
     auth.logout(request)

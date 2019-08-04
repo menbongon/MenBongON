@@ -21,8 +21,6 @@
 
     <h1 class="h3 mb-3 font-weight-normal">입시 뿌셔</h1>
 
-    <a href="{% url 'login' %}">Login</a>         
-
     <form class="form-signin" method="POST" action="{% url 'login' %}">
         {% csrf_token %}
         <h1 class="h3 mb-3 font-weight-normal">로그인 해주세요.</h1>
