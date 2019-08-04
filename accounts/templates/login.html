@@ -1,0 +1,15 @@
+로그인
+
+<form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    아이디
+    <br>
+    <input name="username" type="text" value="">
+    <br>
+    비밀번호
+    <br>
+    <input name="password" type="password" value="">
+    <br>
+    <br>
+    <input type="submit" value="완료">
+</form>
