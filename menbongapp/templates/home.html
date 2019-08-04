@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+<h1>home.html</h1>
+
+<a href="{% url 'notice' %}">공지게시판</a>
+<a href="{% url 'promotion' %}">홍보게시판</a>
+<a href="{% url 'review' %}">후기게시판(봉사단)</a>
+<a href="{% url 'review' %}">후기게시판(일반)</a>
+<a href="{% url 'qna' %}">Q&A</a>
+<a href="{% url 'oneonone' %}">일대일 게시판</a>
+
+<br>
+
+<a href="{% url 'mypage' %}">마이페이지</a>
+
+<br>
+
+<a href="#">입시정보</a>
+<a href="#">입학처</a>
+{% endblock %}
