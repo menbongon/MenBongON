@@ -3,12 +3,13 @@
 <a href="{% url 'promotionwrite' %}">글쓰기</a>
 {% for promotion in promotions.all %}
 <br>
-<div class="container">
-    <div class="card">
-        <div class="card-body">
-            <h3 class="card-title"> {{promotion.title}} </h3>
-            <h6 class="card-subtitle mb-2 text-muted">{{promotion.pub_date}}</h6>
-            <p class="card-text">{{promotion.summary}}</p>
+<div>
+    <div>
+        <div>
+            제목: <h3> {{promotion.title}} </h3><br>
+            이미지: <img src="{{ promotion.image.url }}" alt=" promotion image"><br>
+            작성일: <h6>{{promotion.pub_date}}</h6><br>
+            본문요약 : <p>{{promotion.summary}}</p><br>
             <a href="#" class="{% url 'detail' promotion.id %}">...more</a>
         </div>
     </div>    

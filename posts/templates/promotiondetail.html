@@ -2,11 +2,10 @@
     <h1>Promotion 세부페이지입니다.</h1>
     <div>
         <br><br>
-        <h1>{{details.title}}</h1>
-        <!-- 이미지 불러오기 -->
-        <p>{{details.pub_date}}</p>
-        <!--이벤트 데이트-->
-        <p>{{details.body}}</p>
+        제목: <h3> {{details.title}} </h3><br>
+        이미지: <img src="{{ details.image.url }}" alt=" promotion image"><br>
+        작성일: <h6>{{details.pub_date}}</h6><br>
+        본문 : <p>{{details.body}}</p><br>
     </div>
     <div> <!--댓글 입력하기-->    
         <!--action 추가 promotioncomment">-->

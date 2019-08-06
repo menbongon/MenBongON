@@ -6,7 +6,7 @@ class Promotion_post(models.Model):
     title = models.CharField(max_length=50)
     pub_date = models.DateTimeField('date published')
     body = models.TextField()
-    #image = models.ImageField(upload_to='images/')
+    image = models.ImageField(null=True, upload_to='images/')
     #event_date = models.DateTimeField('event day')
     
     def publish(self):
