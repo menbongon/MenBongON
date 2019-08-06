@@ -1,1 +1,18 @@
 <h1>promotionboard.html</h1>
+
+<a href="{% url 'promotionwrite' %}">글쓰기</a>
+{% for promotion in promotions.all %}
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title"> {{promotion.title}} </h3>
+            <h6 class="card-subtitle mb-2 text-muted">{{promotion.pub_date}}</h6>
+            <p class="card-text">{{promotion.summary}}</p>
+            <a href="#" class="{% url 'detail' promotion.id %}">...more</a>
+        </div>
+    </div>    
+</div>    
+{% endfor %}
+<br>
+<br>

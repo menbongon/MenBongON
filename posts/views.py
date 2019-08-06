@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .models import Promotion_post, Promotion_comment, QandA_post, QandA_comment
 
 def notice(request):
@@ -8,6 +9,7 @@ def oneonone(request):
     return render(request, 'oneononeboard.html')
 
 def promotion(request):
+    promotions = Promotion_post.objects
     return render(request, 'promotionboard.html')
 
 def promotionWrite(request):
@@ -25,6 +27,7 @@ def promotionDetail(request, promotion_id):
     return render(request, 'promotiondetail.html', {'details':details})
 
 def qna(request):
+    qnas = QandA_post.objects
     return render(request, 'qnaboard.html')
 
 def qnaWrite(request):

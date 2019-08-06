@@ -1,1 +1,14 @@
 <h1>홍보글 작성 페이지입니다.</h1>
+
+<form method="POST" action="{% url 'promotioncreate' %}">
+    {% csrf_token %}
+    제목<br>
+    <input name="title" type="text">
+    <br>
+    내용<br>
+    <textarea cols=40 rows=10 name="body"></textarea>
+    <br>
+    <!-- 날짜 event_date -->
+    <!-- 이미지 image -->
+    <input type="submit" value="완료">
+</form>

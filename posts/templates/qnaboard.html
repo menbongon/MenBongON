@@ -1,1 +1,19 @@
-<h1>qnaboard.hrml</h1>
+<h1>qnaboard.html</h1>
+
+<a href="{% url 'qnawrite' %}">글쓰기</a>
+
+{% for qna in qnas.all %}
+<br>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title"> {{qna.title}} </h3>
+            <h6 class="card-subtitle mb-2 text-muted">{{qna.pub_date}}</h6>
+            <p class="card-text">{{qna.summary}}</p>
+            <a href="#" class="{% url 'detail' promotion.id %}">...more</a>
+        </div>
+    </div>    
+</div>    
+{% endfor %}
+<br>
+<br>
