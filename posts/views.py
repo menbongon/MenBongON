@@ -20,6 +20,13 @@ def promotionWrite(request):
     #return redirect('promotion')
 
 def promotionCreate(request):
+    promotion = Promotion_post()
+    if request.method == "POST":
+        promotion.title = request.POST['title']
+        promotion.body = request.POST['body']
+        promotion.pub_date = timezone.datetime.now()
+        promotion.save() # 쿼리셋 메소드 (데이터베이스에 저장)
+        return redirect('../'+str(promotion.id))
     return render(request, 'promotionboard.html')
 
 def promotionDetail(request, promotion_id):
@@ -44,11 +51,11 @@ def qnaWrite(request):
 def qnaCreate(request):
     qna = QandA_post()
     if request.method == "POST":
-        qna.title = request.POST["title"]
-        qna.body = request.POST["body"]
+        qna.title = request.POST['title']
+        qna.body = request.POST['body']
         qna.pub_date = timezone.datetime.now()
         qna.save() # 쿼리셋 메소드 (데이터베이스에 저장)
-        return redirect('/qna/'+str(qna.id))
+        return redirect('../'+str(qna.id))
     return render(request, 'qnaboard.html')
 
 def qnaDetail(request, qna_id):
