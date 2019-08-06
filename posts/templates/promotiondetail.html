@@ -1,11 +1,30 @@
 <body>
     <h1>Promotion 세부페이지입니다.</h1>
-    <div class="container">
+    <div>
         <br><br>
         <h1>{{details.title}}</h1>
         <!-- 이미지 불러오기 -->
         <p>{{details.pub_date}}</p>
         <p>{{details.event_date}}</p>
         <p>{{details.body}}</p>
+    </div>
+    <div> <!--댓글 입력하기-->    
+        <!--<form method="POST" action="{% url 'promotioncomment' %}">-->
+        <form method="POST">
+            {% csrf_token %}
+            댓글<br>
+            <textarea cols=40 rows=10 name="comment"></textarea><br>
+            <input type="submit" value="작성하기">
+        </form>
+    </div>
+    <div> <!--댓글불러오기
+        {% for promotioncomment in promotioncomments.all %}
+        <br>
+        <div>
+             작성자 추가하기 
+            <h3> {{promotioncomment.comment}} </h3>
+            <h6>{{promotioncomment.pub_date}}</h6>
+        </div>   
+        {% endfor %}-->
     </div>
 </body>

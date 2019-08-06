@@ -26,6 +26,10 @@ def promotionDetail(request, promotion_id):
     details = get_object_or_404(Promotion_post, pk = promotion_id)
     return render(request, 'promotiondetail.html', {'details':details})
 
+# def promotionComment(request, promotion_id):
+#     details = get_object_or_404(Promotion_post, pk = promotion_id)
+#     return render(request, 'promotiondetail.html', {'details':details})
+
 def qna(request):
     qnas = QandA_post.objects
     return render(request, 'qnaboard.html')
@@ -38,11 +42,22 @@ def qnaWrite(request):
     #return redirect('qna')
 
 def qnaCreate(request):
+    qna = QandA_post()
+    if request.method == "POST":
+        qna.title = request.POST["title"]
+        qna.body = request.POST["body"]
+        qna.pub_date = timezone.datetime.now()
+        qna.save() # 쿼리셋 메소드 (데이터베이스에 저장)
+        return redirect('/qna/'+str(qna.id))
     return render(request, 'qnaboard.html')
 
 def qnaDetail(request, qna_id):
     details = get_object_or_404(QandA_post, pk = qna_id)
     return render(request, 'qnadetail.html', {'details':details})
+
+# def qnaComment(request, qna_id):
+#     details = get_object_or_404(QandA_post, pk = qna_id)
+#     return render(request, 'qnadetail.html', {'details':details})
 
 def review(request):
     return render(request, 'reviewboard.html')
