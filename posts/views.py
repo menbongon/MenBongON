@@ -10,13 +10,19 @@ def promotion(request):
     return render(request, 'promotionboard.html')
 
 def promotionWrite(request):
-    return render(request, 'promotionwrite.html')
-
+    user_type=request.user.user_type
+    if user_type == 0 or user_type == 1:
+        return render(request, 'promotionwrite.html')
+    return redirect('promotion')
+    
 def qna(request):
     return render(request, 'qnaboard.html')
 
 def qnaWrite(request):
-    return render(request, 'qnawrite.html')
+    user_type=request.user.user_type
+    if user_type == 3:
+        return render(request, 'qnawrite.html')
+    return redirect('qna')
 
 def review(request):
     return render(request, 'reviewboard.html')
