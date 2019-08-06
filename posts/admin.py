@@ -1,3 +1,19 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+class NoticePostAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'author_id', 'title', 'pub_date'] 
+
+class NoticeCommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'author_id', 'post', 'post_id', 'body'] 
+
+class OneononePostAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'author_id', 'title', 'post_password', 'pub_date'] 
+
+class OneononeCommentAdmin(admin.ModelAdmin):
+    list_display = ['id', 'author', 'author_id', 'post', 'post_id', 'body'] 
+
+admin.site.register(Notice_post, NoticePostAdmin)
+admin.site.register(Notice_comment, NoticeCommentAdmin)
+admin.site.register(Oneonone_post, OneononePostAdmin)
+admin.site.register(Oneonone_comment, OneononeCommentAdmin)
