@@ -31,7 +31,7 @@ def qnaWrite(request):
     user_type=request.user.user_type
     if user_type == 3:
         return render(request, 'qnawrite.html')
-    return render(request, 'promotionwrite.html') #권한과 상관없이 이동가능하게 하였음. 추후 수정
+    return render(request, 'qnawrite.html') #권한과 상관없이 이동가능하게 하였음. 추후 수정
     #return redirect('qna')
 
 def qnaCreate(request):
