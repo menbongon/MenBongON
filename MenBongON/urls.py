@@ -5,6 +5,7 @@ from django.urls import path, include
 import accounts.views
 import mypage.views
 import menbongapp.views 
+import posts.views
 
 from django.conf import settings
 from django.conf.urls.static import static 
