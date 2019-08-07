@@ -24,3 +24,9 @@
 
 ### mypage
 - 마이페이지
+
+## 실행방법
+    $python manage.py makemigrations
+    $python manage.py migarate
+    $python manage.py runserver
+- 해당 과정을 진행하지 않을 시 회원가입 및 다른 기능들이 작동하지 않습니다.
