@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Promotion_post, QandA_post, Promotion_comment, QandA_comment
 from .models import *
 
 class NoticePostAdmin(admin.ModelAdmin):
@@ -19,6 +18,6 @@ admin.site.register(Notice_comment, NoticeCommentAdmin)
 admin.site.register(Oneonone_post, OneononePostAdmin)
 admin.site.register(Oneonone_comment, OneononeCommentAdmin)
 admin.site.register(Promotion_post)
-admin.site.register(QandA_post)
+admin.site.register(QnA_post)
 admin.site.register(Promotion_comment)
-admin.site.register(QandA_comment)
+admin.site.register(QnA_comment)

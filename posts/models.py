@@ -51,15 +51,13 @@ class Promotion_comment(models.Model):
     body = models.TextField()
     pub_date = models.DateTimeField(default=datetime.now, blank=True)
 
-#Q&A 게시판 (제목, 작성시간, 내용)
-#홍보 게시판 (작성자, 제목, 내용, 홍보포스터, 작성시간)
-class QandA_post(models.Model):
+#Q&A 게시판 (작성자, 제목, 내용, 사진, 작성시간)
+class QnA_post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=500, default='Q&A')
     body = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     pub_date = models.DateTimeField(default=datetime.now, blank=True)
-    #event_date = models.DateTimeField('event day')
 
     def __str__(self):
         return self.title
@@ -68,7 +66,7 @@ class QandA_post(models.Model):
         return self.body[:100]
 
 # Q&A 게시판 댓글 (작성자, 어떤 글, 작성시간, 내용)
-class QandA_comment(models.Model):
+class QnA_comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey(Notice_post, on_delete=models.CASCADE, null=True, blank=True)
     body = models.TextField()
