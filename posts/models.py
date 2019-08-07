@@ -49,7 +49,7 @@ class Promotion_comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey(Notice_post, on_delete=models.CASCADE, null=True, blank=True)
     body = models.TextField()
-    pub_date = models.DateTimeField(default=datetime.now, blank=True)
+    #pub_date = models.DateTimeField(default=datetime.now, blank=True)
 
 #Q&A 게시판 (작성자, 제목, 내용, 사진, 작성시간)
 class QnA_post(models.Model):
@@ -70,7 +70,7 @@ class QnA_comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey(Notice_post, on_delete=models.CASCADE, null=True, blank=True)
     body = models.TextField()
-    pub_date = models.DateTimeField(default=datetime.now, blank=True)
+    #pub_date = models.DateTimeField(default=datetime.now, blank=True)
 
 
 # 일대일 (작성자, 제목, 내용, 비밀번호, 작성 시간)
