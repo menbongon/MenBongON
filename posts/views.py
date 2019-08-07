@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .models import Promotion_post, Promotion_comment, QandA_post, QandA_comment
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import os
 
 def notice(request):
     return render(request, 'noticeboard.html')
@@ -26,6 +29,14 @@ def promotionCreate(request):
         promotion.body = request.POST['body']
         promotion.pub_date = timezone.datetime.now()
         promotion.save() # 쿼리셋 메소드 (데이터베이스에 저장)
+        
+        prom_img=request.FILES['picture']
+        os.makedirs(("static/userimage/promotion"+str(promotion.id)))
+        promotion.image = "userimage/promotion"+str(promotion.id)+"/"+prom_img.name
+        fs=FileSystemStorage()
+        fn=fs.save("promotion"+str(promotion.id)+"/"+prom_img.name,prom_img)
+        promotion.save()
+        
         return redirect('../'+str(promotion.id))
     return render(request, 'promotionboard.html')
 
@@ -33,9 +44,11 @@ def promotionDetail(request, promotion_id):
     details = get_object_or_404(Promotion_post, pk = promotion_id)
     return render(request, 'promotiondetail.html', {'details':details})
 
-# def promotionComment(request, promotion_id):
-#     details = get_object_or_404(Promotion_post, pk = promotion_id)
-#     return render(request, 'promotiondetail.html', {'details':details})
+def promotionComment(request, promotion_id):
+    details = get_object_or_404(Promotion_post, pk = promotion_id)
+    if request.method == 'POST':
+        dfd
+    return render(request, 'promotiondetail.html', {'details':details})
 
 def qna(request):
     qnas = QandA_post.objects

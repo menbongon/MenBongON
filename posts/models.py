@@ -39,6 +39,7 @@ class Promotion_comment(models.Model):
     #writer = models.user.username
     pub_date = models.DateTimeField('date published')
     comment = models.TextField(max_length=500)
+    post_id = models.IntegerField(null=True)
 
     def publish(self):
         self.pub_date = timezone.now()

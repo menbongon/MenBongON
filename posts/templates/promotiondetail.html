@@ -3,7 +3,10 @@
     <div>
         <br><br>
         제목: <h3> {{details.title}} </h3><br>
-        이미지: <img src="{{ details.image.url }}" alt=" promotion image"><br>
+        이미지:
+        {% if details.image %}
+        <img src="{{ details.image.url }}" alt="promotion image"><br>
+        {% endif %}
         작성일: <h6>{{details.pub_date}}</h6><br>
         본문 : <p>{{details.body}}</p><br>
     </div>
