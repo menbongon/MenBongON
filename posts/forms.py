@@ -16,25 +16,25 @@ class NoticeCommentForm(forms.ModelForm):
 # 홍보게시판
 class PromotionPostForm(forms.ModelForm):
     class Meta:
-        model = Notice_post
+        model = Promotion_post
         fields = ['title', 'body', 'image']
     
 
 class PromotionCommentForm(forms.ModelForm):
     class Meta:
-        model = Notice_comment
+        model = Promotion_comment
         fields = ['body']
 
 # Q&A게시판
 class QnAPostForm(forms.ModelForm):
     class Meta:
-        model = Notice_post
+        model = QnA_post
         fields = ['title', 'body', 'image']
     
 
 class QnACommentForm(forms.ModelForm):
     class Meta:
-        model = Notice_comment
+        model = QnA_comment
         fields = ['body']
 
 # 일대일 게시판
