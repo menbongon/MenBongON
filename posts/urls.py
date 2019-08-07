@@ -7,6 +7,7 @@ urlpatterns = [
     path('notice/', views.notice, name="notice"),
     path('notice/new/', views.notice_new, name="newnotice"),
     path('notice/<int:post_id>/', views.notice_detail, name="notice_detail"),
+    path('notice/<int:post_id>/remove/', views.notice_remove, name="notice_remove"),
 
     path('oneonone/', views.oneonone, name="oneonone"),
     path('oneonone/new/', views.oneonone_new, name="newoneonone"),

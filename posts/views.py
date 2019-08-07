@@ -63,7 +63,10 @@ def notice_new(request):
         form = NoticePostForm()
         return render(request, 'newnotice.html', {'form': form})
 
-
+def notice_remove(request, post_id):
+    notice = get_object_or_404(Notice_post, pk = post_id)
+    notice.delete()
+    return redirect('notice')
 
 
 def oneonone(request):

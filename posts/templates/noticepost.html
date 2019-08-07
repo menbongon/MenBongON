@@ -33,6 +33,14 @@
             <p>{{notice.body}}</p>
             <hr>
 
+            {% if user.user_type == 0 %}
+            <a class="btn btn-default" href="{% url 'notice_remove' notice.id %}"><i class="far fa-trash-alt"></i></a>
+            {% endif %}
+
+            {% if user.id == notice.author_id %}
+            <h1>내가쓴글이얌</h1>
+            {% endif %}
+
             <!-- Comments Form -->
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>
