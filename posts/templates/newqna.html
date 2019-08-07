@@ -1,11 +1,20 @@
-<h1>Q&A 글작성페이지입니다.</h1>
-<form method="POST" action="{% url 'qnacreate' %}">
-    {% csrf_token %}
-    제목<br>
-    <input name="title" type="text">
-    <br>
-    문의사항<br>
-    <textarea cols=40 rows=10 name="body"></textarea>
-    <br>
-    <input type="submit" value="완료">
-</form>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>Q&A글쓰기</h1>
+
+<br>
+
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <br>
+        <input class="btn btn-dark" type="submit" value="작성하기">
+    </form>
+</div>
+
+{% endblock %}

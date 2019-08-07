@@ -54,7 +54,7 @@ class Promotion_comment(models.Model):
 #Q&A 게시판 (작성자, 제목, 내용, 사진, 작성시간)
 class QnA_post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    title = models.CharField(max_length=500, default='Q&A')
+    title = models.CharField(max_length=500, default='QnA')
     body = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     pub_date = models.DateTimeField(default=datetime.now, blank=True)
