@@ -1,1 +1,19 @@
-<h1>qnaboard.hrml</h1>
+<h1>qnaboard.html</h1>
+
+<a href="{% url 'qnawrite' %}">글쓰기</a>
+
+{% for qna in qnas.all %}
+<br>
+<div>
+    <div>
+        <div>
+            제목: <h3>{{qna.title}} </h3>
+            작성일: <h6>{{qna.pub_date}}</h6>
+            본문요약: <p>{{qna.summary}}</p>
+            <a href="{% url 'qnadetail' qna.id %}">...more</a>
+        </div>
+    </div>    
+</div>    
+{% endfor %}
+<br>
+<br>
