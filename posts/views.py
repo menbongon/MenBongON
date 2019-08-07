@@ -13,7 +13,7 @@ def oneonone(request):
 
 def promotion(request):
     promotions = Promotion_post.objects
-    return render(request, 'promotionboard.html')
+    return render(request, 'promotionboard.html', {'promotions':promotions})
 
 def promotionWrite(request):
     user_type=request.user.user_type
@@ -36,7 +36,7 @@ def promotionCreate(request):
         fs=FileSystemStorage()
         fn=fs.save("promotion"+str(promotion.id)+"/"+prom_img.name,prom_img)
         promotion.save()
-        
+
         return redirect('../'+str(promotion.id))
     return render(request, 'promotionboard.html')
 
@@ -46,13 +46,12 @@ def promotionDetail(request, promotion_id):
 
 def promotionComment(request, promotion_id):
     details = get_object_or_404(Promotion_post, pk = promotion_id)
-    if request.method == 'POST':
-        dfd
+    #if request.method == 'POST':
     return render(request, 'promotiondetail.html', {'details':details})
 
 def qna(request):
     qnas = QandA_post.objects
-    return render(request, 'qnaboard.html')
+    return render(request, 'qnaboard.html',{'qnas:'})
 
 def qnaWrite(request):
     user_type=request.user.user_type

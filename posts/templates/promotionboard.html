@@ -7,10 +7,12 @@
     <div>
         <div>
             제목: <h3> {{promotion.title}} </h3><br>
+            {% if promotion.image %}
             이미지: <img src="{{ promotion.image.url }}" alt=" promotion image"><br>
+            {% endif %}
             작성일: <h6>{{promotion.pub_date}}</h6><br>
             본문요약 : <p>{{promotion.summary}}</p><br>
-            <a href="#" class="{% url 'detail' promotion.id %}">...more</a>
+            <a href="#" class="{% url 'promotiondetail' promotion.id %}">...more</a>
         </div>
     </div>    
 </div>    

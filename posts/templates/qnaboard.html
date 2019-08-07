@@ -7,10 +7,10 @@
 <div>
     <div>
         <div>
-            <h3> {{qna.title}} </h3>
-            <h6>{{qna.pub_date}}</h6>
-            <p>{{qna.summary}}</p>
-            <a href="#" class="{% url 'detail' promotion.id %}">...more</a>
+            제목: <h3>{{qna.title}} </h3>
+            작성일: <h6>{{qna.pub_date}}</h6>
+            본문요약: <p>{{qna.summary}}</p>
+            <a href="#" class="{% url 'qnadetail' qna.id %}">...more</a>
         </div>
     </div>    
 </div>    
