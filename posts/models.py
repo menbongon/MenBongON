@@ -47,7 +47,7 @@ class Promotion_post(models.Model):
 # 홍보게시판 댓글 (작성자, 어떤 글, 내용, 작성시간)
 class Promotion_comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    post = models.ForeignKey(Notice_post, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(Promotion_post, on_delete=models.CASCADE, null=True, blank=True)
     body = models.TextField()
     #pub_date = models.DateTimeField(default=datetime.now, blank=True)
 
@@ -68,7 +68,7 @@ class QnA_post(models.Model):
 # Q&A 게시판 댓글 (작성자, 어떤 글, 작성시간, 내용)
 class QnA_comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
-    post = models.ForeignKey(Notice_post, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(QnA_post, on_delete=models.CASCADE, null=True, blank=True)
     body = models.TextField()
     #pub_date = models.DateTimeField(default=datetime.now, blank=True)
 

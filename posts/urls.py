@@ -10,11 +10,11 @@ urlpatterns = [
     
     path('promotion/', views.promotion, name="promotion"),
     path('promotion/new/', views.promotion_new, name="newpromotion"),
-    path('promotion/<int:promotion_id>', views.promotion_detail, name="promotion_detail"),
+    path('promotion/<int:post_id>', views.promotion_detail, name="promotion_detail"),
    
     path('qna/', views.qna, name="qna"),
     path('qna/new/', views.qna_new, name="newqna"),
-    path('qna/<int:qna_id>', views.qna_detail, name="qna_detail"), 
+    path('qna/<int:post_id>', views.qna_detail, name="qna_detail"), 
 
     path('oneonone/', views.oneonone, name="oneonone"),
     path('oneonone/new/', views.oneonone_new, name="newoneonone"),
