@@ -51,7 +51,7 @@ def promotionComment(request, promotion_id):
 
 def qna(request):
     qnas = QandA_post.objects
-    return render(request, 'qnaboard.html',{'qnas:'})
+    return render(request, 'qnaboard.html',{'qnas':qnas})
 
 def qnaWrite(request):
     user_type=request.user.user_type

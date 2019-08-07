@@ -12,7 +12,7 @@
             {% endif %}
             작성일: <h6>{{promotion.pub_date}}</h6><br>
             본문요약 : <p>{{promotion.summary}}</p><br>
-            <a href="#" class="{% url 'promotiondetail' promotion.id %}">...more</a>
+            <a href="{% url 'promotiondetail' promotion.id %}">...more</a>
         </div>
     </div>    
 </div>    
