@@ -45,43 +45,51 @@ def notice_detail(request, post_id):
 
 def notice_new(request):
     # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = NoticePostForm(request.POST, request.FILES) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('notice_detail', post_id=post.id)
-        else:
-            return redirect('notice')
+    if request.user.user_type == 0:
+        if request.method == 'POST':
+            form = NoticePostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('notice_detail', post_id=post.id)
+            else:
+                return redirect('notice')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = NoticePostForm()
+            return render(request, 'newnotice.html', {'form': form})
     else:
-        form = NoticePostForm()
-        return render(request, 'newnotice.html', {'form': form})
+        return render(request, 'warning.html')
 
 def notice_remove(request, post_id):
     notice = get_object_or_404(Notice_post, pk = post_id)
-    notice.delete()
-    return redirect('notice')
+    if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
+        notice.delete()
+        return redirect('notice')
+    else:
+        return render(request, 'warning.html')
 
 def notice_edit(request, post_id):
     notice = get_object_or_404(Notice_post, pk = post_id)
-    if request.method == 'POST':
-        form = NoticePostForm(request.POST, request.FILES)
-        if form.is_valid():
-            notice.title = form.cleaned_data['title']
-            notice.body = form.cleaned_data['body']
-            notice.image = form.cleaned_data['image']
-            notice.save()
-            return redirect('notice_detail', post_id=notice.id)
+    if request.user.id == notice.author_id:
+        if request.method == 'POST':
+            form = NoticePostForm(request.POST, request.FILES)
+            if form.is_valid():
+                notice.title = form.cleaned_data['title']
+                notice.body = form.cleaned_data['body']
+                notice.image = form.cleaned_data['image']
+                notice.save()
+                return redirect('notice_detail', post_id=notice.id)
+        else:
+            form = NoticePostForm(instance=notice)
+            return render(request, 'editnotice.html', {'form': form})
     else:
-        form = NoticePostForm(instance=notice)
-        return render(request, 'editnotice.html', {'form': form})
-
+        return render(request, 'warning.html')
 
 
 def oneonone(request):
@@ -91,69 +99,82 @@ def oneonone(request):
 
 def oneonone_detail(request, post_id):
     oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
-    if request.method == 'POST':
-        form = OneononeCommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = oneonone_detail
-            comment.save()
+    if request.user.user_type == 0 or request.user.user_type == 1 or request.user.id == oneonone_detail.author_id:
+        if request.method == 'POST':
+            form = OneononeCommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.post = oneonone_detail
+                comment.save()
 
+                newform = OneononeCommentForm()
+                oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
+                oneonone_comments = Oneonone_comment.objects.filter(
+                    post_id = post_id
+                )
+                return render(request, 'oneononepost.html', {'oneonone': oneonone_detail, 'oneonone_comments': oneonone_comments, 'form': newform})
+            else:
+                return redirect('home')
+        else:
             newform = OneononeCommentForm()
             oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
             oneonone_comments = Oneonone_comment.objects.filter(
                 post_id = post_id
             )
             return render(request, 'oneononepost.html', {'oneonone': oneonone_detail, 'oneonone_comments': oneonone_comments, 'form': newform})
-        else:
-            return redirect('home')
     else:
-        newform = OneononeCommentForm()
-        oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
-        oneonone_comments = Oneonone_comment.objects.filter(
-            post_id = post_id
-        )
-        return render(request, 'oneononepost.html', {'oneonone': oneonone_detail, 'oneonone_comments': oneonone_comments, 'form': newform})
+        return render(request, 'warning.html')
 
 
 def oneonone_new(request):
-    # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = OneononePostForm(request.POST) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('oneonone_detail', post_id=post.id)
-        else:
-            return redirect('oneonone')
+    if request.user.user_type == 0 or request.user.user_type == 1 or request.user.user_type == 3:
+        # 1. 입력된 내용을 처리하는 기능 -> POST
+        if request.method == 'POST':
+            form = OneononePostForm(request.POST) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('oneonone_detail', post_id=post.id)
+            else:
+                return redirect('oneonone')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = OneononePostForm()
+            return render(request, 'newoneonone.html', {'form': form})
     else:
-        form = OneononePostForm()
-        return render(request, 'newoneonone.html', {'form': form})
+        return render(request, 'warning.html')
+
 
 def oneonone_remove(request, post_id):
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
-    oneonone_post.delete()
-    return redirect('oneonone')
+    if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
+        oneonone_post.delete()
+        return redirect('oneonone')
+    else:
+        return render(request, 'warning.html')
 
 def oneonone_edit(request, post_id):
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
-    if request.method == 'POST':
-        form = OneononePostForm(request.POST)
-        if form.is_valid():
-            oneonone_post.title = form.cleaned_data['title']
-            oneonone_post.body = form.cleaned_data['body']
-            oneonone_post.post_password = form.cleaned_data['post_password']
-            oneonone_post.save()
-            return redirect('oneonone_detail', post_id=oneonone_post.id)
+    if request.user.id == oneonone_post.author_id:
+        if request.method == 'POST':
+            form = OneononePostForm(request.POST)
+            if form.is_valid():
+                oneonone_post.title = form.cleaned_data['title']
+                oneonone_post.body = form.cleaned_data['body']
+                oneonone_post.post_password = form.cleaned_data['post_password']
+                oneonone_post.save()
+                return redirect('oneonone_detail', post_id=oneonone_post.id)
+        else:
+            form = OneononePostForm(instance=oneonone_post)
+            return render(request, 'editoneonone.html', {'form': form})
     else:
-        form = OneononePostForm(instance=oneonone_post)
-        return render(request, 'editoneonone.html', {'form': form})
+        return render(request, 'warning.html')
 
 
 def promotion(request):
