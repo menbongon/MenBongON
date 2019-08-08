@@ -68,6 +68,21 @@ def notice_remove(request, post_id):
     notice.delete()
     return redirect('notice')
 
+def notice_edit(request, post_id):
+    notice = get_object_or_404(Notice_post, pk = post_id)
+    if request.method == 'POST':
+        form = NoticePostForm(request.POST, request.FILES)
+        if form.is_valid():
+            notice.title = form.cleaned_data['title']
+            notice.body = form.cleaned_data['body']
+            notice.image = form.cleaned_data['image']
+            notice.save()
+            return redirect('notice_detail', post_id=notice.id)
+    else:
+        form = NoticePostForm(instance=notice)
+        return render(request, 'editnotice.html', {'form': form})
+
+
 
 def oneonone(request):
     oneonone_posts = Oneonone_post.objects.all()
@@ -121,6 +136,24 @@ def oneonone_new(request):
         form = OneononePostForm()
         return render(request, 'newoneonone.html', {'form': form})
 
+def oneonone_remove(request, post_id):
+    oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
+    oneonone_post.delete()
+    return redirect('oneonone')
+
+def oneonone_edit(request, post_id):
+    oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
+    if request.method == 'POST':
+        form = OneononePostForm(request.POST)
+        if form.is_valid():
+            oneonone_post.title = form.cleaned_data['title']
+            oneonone_post.body = form.cleaned_data['body']
+            oneonone_post.post_password = form.cleaned_data['post_password']
+            oneonone_post.save()
+            return redirect('oneonone_detail', post_id=oneonone_post.id)
+    else:
+        form = OneononePostForm(instance=oneonone_post)
+        return render(request, 'editoneonone.html', {'form': form})
 
 
 def promotion(request):
