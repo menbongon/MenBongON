@@ -7,10 +7,16 @@ from .models import *
 from .forms import *
 from django.http import HttpResponse
 import os
+import logging
 
 import os
 
 def notice(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     notice_posts = Notice_post.objects.all()
     # notice_list = Notice_post.objects.all()
     # paginator = Paginator(notice_list, 10)
@@ -18,6 +24,11 @@ def notice(request):
     return render(request, 'noticeboard.html', {'notice_posts': notice_posts})
 
 def notice_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     notice_detail = get_object_or_404(Notice_post, pk = post_id)
     if request.method == 'POST':
         form = NoticeCommentForm(request.POST)
@@ -45,6 +56,11 @@ def notice_detail(request, post_id):
 
 
 def notice_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     # 1. 입력된 내용을 처리하는 기능 -> POST
     if request.user.user_type == 0:
         if request.method == 'POST':
@@ -68,6 +84,11 @@ def notice_new(request):
         return render(request, 'warning.html')
 
 def notice_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     notice = get_object_or_404(Notice_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
         notice.delete()
@@ -76,6 +97,11 @@ def notice_remove(request, post_id):
         return render(request, 'warning.html')
 
 def notice_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     notice = get_object_or_404(Notice_post, pk = post_id)
     if request.user.id == notice.author_id:
         if request.method == 'POST':
@@ -93,10 +119,20 @@ def notice_edit(request, post_id):
         return render(request, 'warning.html')
 
 def promotion(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     promotion_posts = Promotion_post.objects.all()
     return render(request, 'promotionboard.html', {'promotion_posts': promotion_posts})
 
 def promotion_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
     if request.method == 'POST':
         form = PromotionCommentForm(request.POST)
@@ -124,47 +160,104 @@ def promotion_detail(request, post_id):
 
 
 def promotion_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = PromotionPostForm(request.POST, request.FILES) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('promotion_detail', post_id=post.id)
-        else:
-            return redirect('promotion')
+    if request.user.user_type == 0:
+        if request.method == 'POST':
+            form = PromotionPostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('promotion_detail', post_id=post.id)
+            else:
+                return redirect('promotion')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = PromotionPostForm()
+            return render(request, 'newpromotion.html', {'form': form})
     else:
-        form = PromotionPostForm()
-        return render(request, 'newpromotion.html', {'form': form})
+        return render(request, 'warning.html')
+
+def promotion_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
+    promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == promotion_detail.author_id:
+        promotion_detail.delete()
+        return redirect('promotion')
+    else:
+        return render(request, 'warning.html')
+
+def promotion_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
+    promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+    if request.user.id == promotion_detail.author_id:
+        if request.method == 'POST':
+            form = PromotionPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                promotion_detail.title = form.cleaned_data['title']
+                promotion_detail.body = form.cleaned_data['body']
+                promotion_detail.image = form.cleaned_data['image']
+                promotion_detail.save()
+                return redirect('promotion_detail', post_id=promotion_detail.id)
+        else:
+            form = PromotionPostForm(instance=promotion_detail)
+            return render(request, 'editpromotion.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
 
 def qna(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     qna_posts = QnA_post.objects.all()
     return render(request, 'qnaboard.html', {'qna_posts': qna_posts})
 
 def qna_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
     if request.method == 'POST':
-        form = QnACommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = qna_detail
-            comment.save()
+        if request.user.user_type == 2:
+            form = QnACommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.post = qna_detail
+                comment.save()
 
-            newform = QnACommentForm()
-            qna_detail = get_object_or_404(QnA_post, pk = post_id)
-            qna_comments = QnA_comment.objects.filter(
-                post_id = post_id
-            )
-            return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+                newform = QnACommentForm()
+                qna_detail = get_object_or_404(QnA_post, pk = post_id)
+                qna_comments = QnA_comment.objects.filter(
+                    post_id = post_id
+                )
+                return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+            else:
+                return redirect('home')
         else:
-            return redirect('home')
+            return render(request, 'warning.html')
+    
     else:
         newform = QnACommentForm()
         qna_detail = get_object_or_404(QnA_post, pk = post_id)
@@ -175,34 +268,94 @@ def qna_detail(request, post_id):
 
 
 def qna_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
+    if request.user.user_type == 3:
     # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = QnAPostForm(request.POST, request.FILES) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('qna_detail', post_id=post.id)
-        else:
-            return redirect('qna')
+        if request.method == 'POST':
+            form = QnAPostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('qna_detail', post_id=post.id)
+            else:
+                return redirect('qna')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = QnAPostForm()
+            return render(request, 'newqna.html', {'form': form})    
     else:
-        form = QnAPostForm()
-        return render(request, 'newqna.html', {'form': form})
+        return render(request, 'warning.html')
+
+def qna_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
+    qna_detail = get_object_or_404(QnA_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == qna_detail.author_id:
+        qna_detail.delete()
+        return redirect('qna')
+    else:
+        return render(request, 'warning.html')
+
+def qna_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
+    qna_detail = get_object_or_404(QnA_post, pk = post_id)
+    if request.user.id == qna_detail.author_id:
+        if request.method == 'POST':
+            form = QnAPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                qna_detail.title = form.cleaned_data['title']
+                qna_detail.body = form.cleaned_data['body']
+                qna_detail.image = form.cleaned_data['image']
+                qna_detail.save()
+                return redirect('qna_detail', post_id=qna_detail.id)
+        else:
+            form = QnAPostForm(instance=qna_detail)
+            return render(request, 'editqna.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
+
 
 def review(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     return render(request, 'reviewboard.html')
 
 def oneonone(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     oneonone_posts = Oneonone_post.objects.all()
     return render(request, 'oneononeboard.html', {'oneonone_posts': oneonone_posts})
 
 
 def oneonone_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.user_type == 0 or request.user.user_type == 1 or request.user.id == oneonone_detail.author_id:
         if request.method == 'POST':
@@ -233,6 +386,11 @@ def oneonone_detail(request, post_id):
 
 
 def oneonone_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.user.user_type == 0 or request.user.user_type == 1 or request.user.user_type == 3:
         # 1. 입력된 내용을 처리하는 기능 -> POST
         if request.method == 'POST':
@@ -257,6 +415,11 @@ def oneonone_new(request):
 
 
 def oneonone_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
         oneonone_post.delete()
@@ -265,6 +428,11 @@ def oneonone_remove(request, post_id):
         return render(request, 'warning.html')
 
 def oneonone_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.id == oneonone_post.author_id:
         if request.method == 'POST':
@@ -281,8 +449,12 @@ def oneonone_edit(request, post_id):
     else:
         return render(request, 'warning.html')
 
-
 def review1_board(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method == "GET":
         review1_posts = Review1_post.objects.all()
         try:
@@ -300,6 +472,11 @@ def review1_board(request):
         return render(request, 'review1_board.html',{'review1_posts' : review1_posts})
 
 def review1_post_detail(request,pk):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method =="GET":
         review1_post = Review1_post.objects.get(id=pk)
         review1_post_comments = Review1_post_comment.objects.filter(commented_post=pk)
@@ -316,10 +493,16 @@ def review1_post_detail(request,pk):
 
         review1_post = Review1_post.objects.get(id=pk)
         review1_post_comments = Review1_post_comment.objects.filter(commented_post=pk)
+        review1_post_images = Review1_post_image.objects.filter(imaged_post=pk)
         
         return render(request, 'review1_post_detail.html',{'review1_post' : review1_post, 'review1_post_comments' : review1_post_comments, 'review1_post_images' : review1_post_images})
-        
+
 def review1_post_create(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method == "GET":
         return render(request, 'review1_post_create.html')
     else:
@@ -344,14 +527,14 @@ def review1_post_create(request):
             new_review1_post.save()
 
             a = request.FILES['picture']
-            new_review1_post.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+            new_review1_post.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
             
             for a in request.FILES.getlist('picture'):
                 # a=request.FILES['picture']
-                # new_review1_post.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+                # new_review1_post.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
                 new_review1_post_image = Review1_post_image()
                 new_review1_post_image.imaged_post = new_review1_post.id
-                new_review1_post_image.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+                new_review1_post_image.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
                 new_review1_post_image.save()
 
                 fs=FileSystemStorage()
@@ -370,6 +553,11 @@ def review1_post_create(request):
 
 
 def review2_board(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method == "GET":
         review2_posts = Review2_post.objects.all()
         try:
@@ -387,6 +575,11 @@ def review2_board(request):
         return render(request, 'review2_board.html',{'review2_posts' : review2_posts})
 
 def review2_post_detail(request,pk):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method == "GET":
         review2_post = Review2_post.objects.get(id=pk)
         review2_post_comments = Review2_post_comment.objects.filter(commented_post=pk)
@@ -403,10 +596,16 @@ def review2_post_detail(request,pk):
 
         review2_post = Review2_post.objects.get(id=pk)
         review2_post_comments = Review2_post_comment.objects.filter(commented_post=pk)
+        review1_post_images = Review1_post_image.objects.filter(imaged_post=pk)
         
         return render(request, 'review2_post_detail.html',{'review2_post' : review2_post, 'review2_post_comments' : review2_post_comments, 'review2_post_images' : review2_post_images})
         
 def review2_post_create(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        return render(request, 'intro.html')
     if request.method == "GET":
         return render(request, 'review2_post_create.html')
     else:
@@ -431,14 +630,14 @@ def review2_post_create(request):
             new_review2_post.save()
 
             a = request.FILES['picture']
-            new_review2_post.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+            new_review2_post.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
             
             for a in request.FILES.getlist('picture'):
                 # a=request.FILES['picture']
-                # new_review2_post.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+                # new_review2_post.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
                 new_review2_post_image = Review2_post_image()
                 new_review2_post_image.imaged_post = new_review2_post.id
-                new_review2_post_image.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+                new_review2_post_image.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
                 new_review2_post_image.save()
 
                 fs=FileSystemStorage()

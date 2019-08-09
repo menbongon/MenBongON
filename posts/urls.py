@@ -13,10 +13,14 @@ urlpatterns = [
     path('promotion/', views.promotion, name="promotion"),
     path('promotion/new/', views.promotion_new, name="newpromotion"),
     path('promotion/<int:post_id>', views.promotion_detail, name="promotion_detail"),
-   
+    path('promotion/<int:post_id>/remove/', views.promotion_remove, name="promotion_remove"),
+    path('promotion/<int:post_id>/edit/', views.promotion_edit, name="promotion_edit"),
+
     path('qna/', views.qna, name="qna"),
     path('qna/new/', views.qna_new, name="newqna"),
     path('qna/<int:post_id>', views.qna_detail, name="qna_detail"), 
+    path('qna/<int:post_id>/remove/', views.qna_remove, name="qna_remove"),
+    path('qna/<int:post_id>/edit/', views.qna_edit, name="qna_edit"),
 
     path('oneonone/', views.oneonone, name="oneonone"),
     path('oneonone/new/', views.oneonone_new, name="newoneonone"),

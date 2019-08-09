@@ -1,4 +1,7 @@
-{% load static %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
 
 <h1>review2_board.html</h1>
 
@@ -45,7 +48,7 @@
             <td>{{ review2_post.content }}</td>
             <td>{{ review2_post.posted_date }}</td>
             <td>{{ review2_post.image_url }}</td>
-            <td><img src="{% static review2_post.image_url %}"></td>   
+            <td><img src="{{ review2_post.image_url }}"></td>   
         </tr>
         {% endfor %}
     </tbody>
@@ -54,3 +57,5 @@
 <form method="get" action="{% url 'review2_post_create' %}">
     <button type="submit">글 작성</button>
 </form>
+
+{% endblock %}
