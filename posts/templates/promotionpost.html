@@ -33,6 +33,16 @@
             <p>{{promotion.body}}</p>
             <hr>
 
+            <!-- 삭제는 글쓴이 or 간부(0) -->
+            {% if user.user_type == 0 or user.id == promotion.author_id %}
+            <a class="btn btn-default" href="{% url 'promotion_remove' promotion.id %}"><i class="far fa-trash-alt"></i></a>
+            {% endif %}
+
+            <!-- 수정은 글쓴이 -->
+            {% if user.id == promotion.author_id %}
+            <a class="btn btn-default" href="{% url 'promotion_edit' promotion.id %}"><i class="far fa-edit"></i></a>
+            {% endif %}     
+
             <!-- Comments Form -->
             <div class="card my-4">
                 <h5 class="card-header">Leave a Comment:</h5>

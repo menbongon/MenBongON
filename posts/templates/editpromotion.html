@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<h1>홍보글 수정하기</h1>
+
+<br>
+
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <br>
+        <input class="btn btn-dark" type="submit" value="수정하기">
+    </form>
+</div>
+
+{% endblock %}

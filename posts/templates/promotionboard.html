@@ -7,10 +7,10 @@
 
 <h1>홍보게시판</h1>
 
-{{asd}}
-
 <!-- 공지사항 (작성자, 제목, 내용, 이미지, 작성 시간) -->
+{% if user.user_type == 0 %}
 <a class="nav-link" href="{%url 'newpromotion' %}">홍보글쓰기</a>
+{% endif %}
 
 {% for post in promotion_posts %}
 

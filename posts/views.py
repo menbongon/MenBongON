@@ -144,6 +144,31 @@ def promotion_new(request):
         form = PromotionPostForm()
         return render(request, 'newpromotion.html', {'form': form})
 
+def promotion_remove(request, post_id):
+    promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == promotion_detail.author_id:
+        promotion_detail.delete()
+        return redirect('promotion')
+    else:
+        return render(request, 'warning.html')
+
+def promotion_edit(request, post_id):
+    promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+    if request.user.id == promotion_detail.author_id:
+        if request.method == 'POST':
+            form = PromotionPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                promotion_detail.title = form.cleaned_data['title']
+                promotion_detail.body = form.cleaned_data['body']
+                promotion_detail.image = form.cleaned_data['image']
+                promotion_detail.save()
+                return redirect('promotion_detail', post_id=promotion_detail.id)
+        else:
+            form = PromotionPostForm(instance=promotion_detail)
+            return render(request, 'editpromotion.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
 def qna(request):
     qna_posts = QnA_post.objects.all()
     return render(request, 'qnaboard.html', {'qna_posts': qna_posts})
@@ -194,6 +219,33 @@ def qna_new(request):
     else:
         form = QnAPostForm()
         return render(request, 'newqna.html', {'form': form})
+
+def qna_remove(request, post_id):
+    qna_detail = get_object_or_404(QnA_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == qna_detail.author_id:
+        qna_detail.delete()
+        return redirect('qna')
+    else:
+        return render(request, 'warning.html')
+
+def qna_edit(request, post_id):
+    qna_detail = get_object_or_404(QnA_post, pk = post_id)
+    if request.user.id == qna_detail.author_id:
+        if request.method == 'POST':
+            form = QnAPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                qna_detail.title = form.cleaned_data['title']
+                qna_detail.body = form.cleaned_data['body']
+                qna_detail.image = form.cleaned_data['image']
+                qna_detail.save()
+                return redirect('qna_detail', post_id=qna_detail.id)
+        else:
+            form = QnAPostForm(instance=qna_detail)
+            return render(request, 'editqna.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
+
 
 def review(request):
     return render(request, 'reviewboard.html')
