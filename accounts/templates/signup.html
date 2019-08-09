@@ -145,7 +145,51 @@
                         <input name="email" type="email" value="" class="form-control" id="exampleFormControlInput1"
                             placeholder="이메일">
                     </div>
-                </span>
+
+                    <hr class="my-4">
+                    <span class="all type0" style="display:none">
+                        <h1>간부 입력란</h1>
+                    </span>
+                    <span class="all type1" style="display:none">
+                        <h1>단원 입력란</h1>
+                    </span>
+                    <span class="all type2" style="display:none">
+                        <h1>대학생 입력란</h1>
+                    </span>
+                    <span class="all type3" style="display:none">
+                        <h1>입시생 입력란</h1>
+                    </span>
+
+                    <form method="POST" action="{% url 'signup' %}">
+                        {% csrf_token %}
+                        <span class="all type0 type1 type2 type3" style="display:none">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">아이디</label>
+                                <input name="username" type="text" value="" class="form-control" id="exampleFormControlInput1" placeholder="아이디">
+                            </div>
+                        </span>
+
+                        <span class="all type0 type1 type2 type3" style="display:none">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">비밀번호</label>
+                                <input name="password" type="password" value="" class="form-control" id="exampleFormControlInput1" placeholder="비밀번호">
+                            </div>
+                        </span>
+
+                        <span class="all type0 type1 type2 type3" style="display:none">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">비밀번호확인</label>
+                                <input name="password_check" type="password" value="" class="form-control" id="exampleFormControlInput1" placeholder="비밀번호확인">
+                            </div>
+                        </span>
+
+                        <span class="all type0 type1 type2 type3" style="display:none">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">이메일</label>
+                                <input name="email" type="email" value="" class="form-control" id="exampleFormControlInput1" placeholder="이메일">
+                            </div>
+                        </span>
+
                 <span class="all type0 type1 type2" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">대학교</label>
@@ -263,8 +307,9 @@
                 </span>
                 <div style="display: flex;justify-content: center; flex-wrap: wrap;">
                     <input type="submit"
-                        style=" margin: 20px; width: 50%; height: 40px; color: white; background-color: #82E8D9; border: 1 solid #82E8D9;"
+                        style=" margin: 20px; width: 50%; height: 40px; color: white; background-color: #82E8D9; border: 0 solid #82E8D9;"
                         value="완료">
+
                 </div>
             </form>
         </div>
