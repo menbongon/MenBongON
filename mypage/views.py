@@ -5,5 +5,5 @@ def mypage(request):
         username=request.user.username
         password=request.user.password
     except:
-        redirect('intro')
+        return render(request, 'intro.html')
     return render(request, 'mypage.html')
