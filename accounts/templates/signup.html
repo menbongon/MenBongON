@@ -92,6 +92,7 @@
                 <button type="button" onclick="change3();"><img src="{% static '/images/8.png' %}" width="70"
                         height="60" alt=".."><br>입시생</button>
             </div>
+
             <hr class="my-4">
             <span class="all type0" style="display:none">
                 <h1>간부 입력란</h1>
@@ -108,8 +109,6 @@
 
             <form method="POST" action="{% url 'signup' %}">
                 {% csrf_token %}
-                
-                {{error_msg}}
                 <span class="all type0 type1 type2 type3" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">아이디</label>
@@ -136,68 +135,17 @@
 
                 <span class="all type0 type1 type2 type3" style="display:none">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1">이름</label>
-                        <input name="name" type="text" value="" class="form-control" id="exampleFormControlInput1"
-                            placeholder="이름">
-                    </div>
-                </span>
-
-                <span class="all type0 type1 type2 type3" style="display:none">
-                    <div class="form-group">
                         <label for="exampleFormControlInput1">이메일</label>
                         <input name="email" type="email" value="" class="form-control" id="exampleFormControlInput1"
                             placeholder="이메일">
                     </div>
-
-                    <hr class="my-4">
-                    <span class="all type0" style="display:none">
-                        <h1>간부 입력란</h1>
-                    </span>
-                    <span class="all type1" style="display:none">
-                        <h1>단원 입력란</h1>
-                    </span>
-                    <span class="all type2" style="display:none">
-                        <h1>대학생 입력란</h1>
-                    </span>
-                    <span class="all type3" style="display:none">
-                        <h1>입시생 입력란</h1>
-                    </span>
-
-                    <form method="POST" action="{% url 'signup' %}">
-                        {% csrf_token %}
-                        <span class="all type0 type1 type2 type3" style="display:none">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">아이디</label>
-                                <input name="username" type="text" value="" class="form-control" id="exampleFormControlInput1" placeholder="아이디">
-                            </div>
-                        </span>
-
-                        <span class="all type0 type1 type2 type3" style="display:none">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">비밀번호</label>
-                                <input name="password" type="password" value="" class="form-control" id="exampleFormControlInput1" placeholder="비밀번호">
-                            </div>
-                        </span>
-
-                        <span class="all type0 type1 type2 type3" style="display:none">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">비밀번호확인</label>
-                                <input name="password_check" type="password" value="" class="form-control" id="exampleFormControlInput1" placeholder="비밀번호확인">
-                            </div>
-                        </span>
-
-                        <span class="all type0 type1 type2 type3" style="display:none">
-                            <div class="form-group">
-                                <label for="exampleFormControlInput1">이메일</label>
-                                <input name="email" type="email" value="" class="form-control" id="exampleFormControlInput1" placeholder="이메일">
-                            </div>
-                        </span>
+                </span>
 
                 <span class="all type0 type1 type2" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">대학교</label>
                         <select name="university" class="form-control" id="exampleFormControlSelect1">
-                            {% for univ in university %}        
+                            {% for univ in university %}
                             <option value="{{univ.name}}">{{univ.name}}</option>
                             {% endfor %}
                         </select>
@@ -275,20 +223,20 @@
                 </span>
 
                 <span class="all type0 type1" style="display:none">
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">기수</label>
-                            <select name="menbong" class="form-control" id="exampleFormControlSelect1">
-                                <option value="7" selected>7기</option>
-                                <option value="6">6기</option>
-                                <option value="5">5기</option>
-                                <option value="4">4기</option>
-                                <option value="3">3기</option>
-                                <option value="2">2기</option>
-                                <option value="1">1기</option>
-                            </select>
-                        </div>
-                    </span>
-                
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">기수</label>
+                        <select name="menbong" class="form-control" id="exampleFormControlSelect1">
+                            <option value="7" selected>7기</option>
+                            <option value="6">6기</option>
+                            <option value="5">5기</option>
+                            <option value="4">4기</option>
+                            <option value="3">3기</option>
+                            <option value="2">2기</option>
+                            <option value="1">1기</option>
+                        </select>
+                    </div>
+                </span>
+
                 <span class="all type0 type1 type2 type3" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">전화번호</label>
@@ -297,7 +245,7 @@
                             id="exampleFormControlInput1">
                         <p> - </p>
                         <input name="phone_number2" type="text" value="" class="form-control"
-                        id="exampleFormControlInput1">
+                            id="exampleFormControlInput1">
                     </div>
                 </span>
 
@@ -341,7 +289,7 @@
 
 
     <footer>
-        
+
     </footer>
 </body>
 

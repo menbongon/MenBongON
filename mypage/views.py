@@ -9,7 +9,6 @@ from .models import *
 User = get_user_model()
 
 def mypage(request):
-<<<<<<< HEAD
     if request.method == 'POST':
         if request.POST["password"] == request.POST["password_check"]:
             user = User.objects.get(id = request.user.id)
@@ -59,11 +58,3 @@ def mypage(request):
         return render(request, 'mypage.html', {'userType': userType})
 
 
-=======
-    try:
-        username=request.user.username
-        password=request.user.password
-    except:
-        return render(request, 'intro.html')
-    return render(request, 'mypage.html')
->>>>>>> 1fe0d76a9eb03cb7769d6d6b5d615f51e013984b
