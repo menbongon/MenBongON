@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.contrib import auth
+import logging
 
 User = get_user_model()
 
@@ -32,3 +33,7 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('intro')
+
+def test(request):
+    logging.error(request.user.username)
+    return redirect('home')

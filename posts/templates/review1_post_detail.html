@@ -1,0 +1,53 @@
+{% load static %}
+<h2>글 제목: {{review1_post.title}}</h2>
+
+<div>
+    <br>
+    <hr>
+    <p>작성자: {{review1_post.user}}</p>
+    <br>
+    <p>학교: {{review1_post.university}}</p>
+    <br>
+    <p>전공: {{review1_post.major}}</p>
+    <br>
+    <p>계열: {{review1_post.major_type}}</p>
+    <br>
+    <p>지역: {{review1_post.region}}</p>
+    <br>
+    <p>내용 : {{review1_post.content|linebreaks}}</p>
+    
+    {% for review1_post_image in review1_post_images %}
+        <img src="{% static review1_post_image.image_url %}">
+    {% endfor %}
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>댓글번호</th>
+            <th>작성자이름</th>
+            <th>댓글내용</th>
+            <th>날짜</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review1_post_comment in review1_post_comments %}
+
+        <tr>
+            <td>{{ review1_post_comment.id }}</td>
+            <td>{{ review1_post_comment.user }}</td>
+            <td>{{ review1_post_comment.content }}</td>
+            <td>{{ review1_post_comment.posted_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<form method="post">{% csrf_token %}
+
+    <div>
+        <label>내용 :</label><br><input name="content" type="text"><br>
+    </div>
+
+    <input type="submit" value="submit" />
+</form>

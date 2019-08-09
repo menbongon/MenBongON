@@ -1,0 +1,31 @@
+{% load static %}
+<h1>review1 create</h1>
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        <label>제목 :</label><br><input name="title" type="text"><br>
+    </div>
+    <div>
+        <label>학교 :</label><br><input name="university" type="text"><br>
+    </div>
+    <div>
+        <label>전공 :</label><br><input name="major" type="text"><br>
+    </div>
+    <div>
+        <label>계열 :</label><br><input name="major_type" type="text"><br>
+    </div>
+    <div>
+        <label>지역 :</label><br><input name="region" type="text"><br>
+    </div>
+    <div>
+        <label>내용 :</label><br><input name="content" type="text"><br>
+    </div>
+    <div>
+        <label>사진 :</label><br><input type="file" name="picture" multiple>
+    </div>
+
+    <input type="submit" value="submit" />
+</form>

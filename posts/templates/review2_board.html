@@ -1,0 +1,56 @@
+{% load static %}
+
+<h1>review2_board.html</h1>
+
+<form method="get" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div>
+        <label>학교 :</label><br><input name="university" type="text"><br>
+    </div>
+    <div>
+        <label>전공 :</label><br><input name="major" type="text"><br>
+    </div>
+    <div>
+        <label>계열 :</label><br><input name="major_type" type="text"><br>
+    </div>
+    <div>
+        <label>지역 :</label><br><input name="region" type="text"><br>
+    </div>
+
+    <input type="submit" value="submit" />
+</form>
+
+{{review2_posts}}
+<table>
+    <thead>
+        <tr>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자이름</th>
+            <th>글내용</th>
+            <th>날짜</th>
+            <th>이미지유알엘</th>
+            <th>이미지</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review2_post in review2_posts %}
+        <h3><a href="{% url 'review2_post_detail' review2_post.id %}">{{review2_post.title}}</a></h3>
+
+        <tr>
+            <td>{{ review2_post.id }}</td>
+            <td><a href="{% url 'review2_post_detail' review2_post.id %}">{{review2_post.title}}</a></td>
+            <td>{{ review2_post.user }}</td>
+            <td>{{ review2_post.content }}</td>
+            <td>{{ review2_post.posted_date }}</td>
+            <td>{{ review2_post.image_url }}</td>
+            <td><img src="{% static review2_post.image_url %}"></td>   
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<form method="get" action="{% url 'review2_post_create' %}">
+    <button type="submit">글 작성</button>
+</form>
