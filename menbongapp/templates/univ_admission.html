@@ -2,8 +2,8 @@
 {% load staticfiles %}
 
 {% block content %}
-<h1>입학처 링크 소개 페이지입니다.</h1>
-
+<h1>대학교 입학처</h1>
+<p>원하는 대학교의 입학처에 방문해보세요!</p>
 <br>
 {% for univ in university %}
     <p>{{univ.name}}: <a href="{{univ.admission_link}}">입학처링크</a> </p>

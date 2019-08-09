@@ -12,8 +12,11 @@ User = get_user_model()
 def signup(request):
     if request.method == "POST":
         if request.POST["password"] == request.POST["password_check"]:
-            user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
-            
+            try:
+                user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
+            except:
+                return render(request, 'signup.html', {'error_msg':"아이디가 중복됩니다."})
+
             user.name = request.POST["name"]
             user.email = request.POST["email"]
             user.phone_number = request.POST["phone_number"]
@@ -57,7 +60,9 @@ def signup(request):
 
             auth.login(request, user)
             return redirect('home')
-
+        else:
+            return render(request, 'signup.html', {'error_msg':"비밀번호와 확인이 다릅니다."})
+         
     university = University.objects.all()
     return render(request, 'signup.html', {'university':university})
 
