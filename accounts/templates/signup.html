@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body style="background-image: url('/static/paris.jpg');">
+<body style="background-color: #63C3B3;">
     <script>
         function change0() {
             var elements = document.getElementsByClassName("all");
@@ -271,11 +271,30 @@
                     </div>
                 </span>
 
+                <span class="all type0 type1" style="display:none">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect1">기수</label>
+                            <select name="menbong" class="form-control" id="exampleFormControlSelect1">
+                                <option value="7" selected>7기</option>
+                                <option value="6">6기</option>
+                                <option value="5">5기</option>
+                                <option value="4">4기</option>
+                                <option value="3">3기</option>
+                                <option value="2">2기</option>
+                                <option value="1">1기</option>
+                            </select>
+                        </div>
+                    </span>
+                
                 <span class="all type0 type1 type2 type3" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">전화번호</label>
+                        <p>010 - </p>
                         <input name="phone_number" type="text" value="" class="form-control"
-                            id="exampleFormControlInput1" placeholder="전화번호">
+                            id="exampleFormControlInput1">
+                        <p> - </p>
+                        <input name="phone_number2" type="text" value="" class="form-control"
+                        id="exampleFormControlInput1">
                     </div>
                 </span>
 
@@ -319,7 +338,7 @@
 
 
     <footer>
-        copy
+        
     </footer>
 </body>
 
