@@ -16,14 +16,16 @@
 {% for post in qna_posts %}
 
 <br><br>
+
 <div class="card">
-    <div class="card-body">
-        <h5 class="card-title">제목 : {{post.title}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">날짜 : {{post.pub_date}}</h6>
-        <p class="card-text">본문 미리보기 : {{post.summary}}</p>
-        <a href="{% url 'qna_detail' post.id %}" class="card-link">...more</a>
-    </div>
-</div>
+        <h5 class="card-header">질문 : {{post.title}}</h5>
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">날짜 : {{post.pub_date}}</h6>
+            <p class="card-text">본문 미리보기 : {{post.summary}}</p>
+            <a href="{% url 'qna_detail' post.id %}" class="card-link">...more</a>
+        </div>
+      </div>
+<br>
 
 {% endfor %}
 
