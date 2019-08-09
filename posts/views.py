@@ -8,11 +8,6 @@ from .forms import *
 from django.http import HttpResponse
 import os
 
-from posts.models import Review1_post, Review2_post, Review1_post_comment, Review2_post_comment, Review1_post_image, Review2_post_image
-
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
-
 import os
 
 def notice(request):
