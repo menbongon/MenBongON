@@ -46,11 +46,14 @@
                 
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'notice' %}">공지게시판</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'promotion' %}">홍보게시판</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        멘봉 소식
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'notice' %}">공지게시판</a>
+                        <a class="dropdown-item" href="{% url 'promotion' %}">홍보게시판</a>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'review1_board' %}">후기게시판(봉사단)</a>
@@ -62,7 +65,16 @@
                         <a class="nav-link" href="{% url 'qna' %}">Q&A</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'oneonone' %}">일대일 게시판</a>
+                        <a class="nav-link" href="{% url 'oneonone' %}">1:1 게시판</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        My Page
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'mypage' %}">회원정보 수정</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">로그아웃</a>
+                        </div>
                     </li>
                 </ul>
             </div>
