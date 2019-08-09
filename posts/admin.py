@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import *
 
-from posts.models import Review1_post, Review2_post, Review1_post_comment, Review2_post_comment, Review1_post_image, Review2_post_image
-
 # Register your models here.
 
 class NoticePostAdmin(admin.ModelAdmin):
