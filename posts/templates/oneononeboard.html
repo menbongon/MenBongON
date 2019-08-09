@@ -1,1 +1,32 @@
-<h1>oneononeboard.html</h1>
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+
+{% block content %}
+
+<h1>일대일게시판</h1>
+
+
+<!-- 일대일 (작성자, 제목, 내용, 비밀번호, 작성 시간) -->
+<!-- 일대일 글쓰기는 간부(0), 단원(1), 입시생(3) 가능 -->
+{% if user.user_type == 0 or user.user_type == 1 or user.user_type == 3 %}
+<a class="nav-link" href="{%url 'newoneonone' %}">일대일글쓰기</a>
+{% endif %}
+
+
+{% for post in oneonone_posts %}
+
+<br><br>
+<div class="card">
+    <a href="{% url 'oneonone_detail' post.id %}">
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{post.pub_date}}</h6>
+        </div>
+    </a>
+</div>
+
+{% endfor %}
+
+{% endblock %}

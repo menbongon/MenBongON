@@ -8,16 +8,11 @@
 
 
 {% block css %}
-<link href="{% static '/css/main.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 
 {% block content %}
-asd
-{{username}}
-{{password}}
-asd
-<a href="{%url 'test' %}">test</a>
 
 <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
@@ -78,8 +73,8 @@ asd
 </div>
 <a href="{% url 'notice' %}">공지게시판</a>
 <a href="{% url 'promotion' %}">홍보게시판</a>
-<a href="{% url 'review1_board' page=1 %}">후기게시판(봉사단)</a>
-<a href="{% url 'review2_board' page=1 %}">후기게시판(일반)</a>
+<a href="{% url 'review1_board' %}">후기게시판(봉사단)</a>
+<a href="{% url 'review2_board' %}">후기게시판(일반)</a>
 <a href="{% url 'qna' %}">Q&A</a>
 <a href="{% url 'oneonone' %}">일대일 게시판</a>
 

@@ -1,4 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.core.paginator import Paginator
+from .models import *
+from .forms import *
+from django.http import HttpResponse
+import os
 
 from posts.models import Review1_post, Review2_post, Review1_post_comment, Review2_post_comment, Review1_post_image, Review2_post_image
 
@@ -8,30 +16,359 @@ from django.conf import settings
 import os
 
 def notice(request):
-    return render(request, 'noticeboard.html')
+    notice_posts = Notice_post.objects.all()
+    # notice_list = Notice_post.objects.all()
+    # paginator = Paginator(notice_list, 10)
+    # page
+    return render(request, 'noticeboard.html', {'notice_posts': notice_posts})
 
-def oneonone(request):
-    return render(request, 'oneononeboard.html')
+def notice_detail(request, post_id):
+    notice_detail = get_object_or_404(Notice_post, pk = post_id)
+    if request.method == 'POST':
+        form = NoticeCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = notice_detail
+            comment.save()
+
+            newform = NoticeCommentForm()
+            notice_detail = get_object_or_404(Notice_post, pk = post_id)
+            notice_comments = Notice_comment.objects.filter(
+                post_id = post_id
+            )
+            return render(request, 'noticepost.html', {'notice': notice_detail, 'notice_comments': notice_comments, 'form': newform})
+        else:
+            return redirect('home')
+    else:
+        newform = NoticeCommentForm()
+        notice_detail = get_object_or_404(Notice_post, pk = post_id)
+        notice_comments = Notice_comment.objects.filter(
+            post_id = post_id
+        )
+        return render(request, 'noticepost.html', {'notice': notice_detail, 'notice_comments': notice_comments, 'form': newform})
+
+
+def notice_new(request):
+    # 1. 입력된 내용을 처리하는 기능 -> POST
+    if request.user.user_type == 0:
+        if request.method == 'POST':
+            form = NoticePostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('notice_detail', post_id=post.id)
+            else:
+                return redirect('notice')
+
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = NoticePostForm()
+            return render(request, 'newnotice.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
+def notice_remove(request, post_id):
+    notice = get_object_or_404(Notice_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
+        notice.delete()
+        return redirect('notice')
+    else:
+        return render(request, 'warning.html')
+
+def notice_edit(request, post_id):
+    notice = get_object_or_404(Notice_post, pk = post_id)
+    if request.user.id == notice.author_id:
+        if request.method == 'POST':
+            form = NoticePostForm(request.POST, request.FILES)
+            if form.is_valid():
+                notice.title = form.cleaned_data['title']
+                notice.body = form.cleaned_data['body']
+                notice.image = form.cleaned_data['image']
+                notice.save()
+                return redirect('notice_detail', post_id=notice.id)
+        else:
+            form = NoticePostForm(instance=notice)
+            return render(request, 'editnotice.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
 
 def promotion(request):
-    return render(request, 'promotionboard.html')
+    promotion_posts = Promotion_post.objects.all()
+    return render(request, 'promotionboard.html', {'promotion_posts': promotion_posts})
+
+def promotion_detail(request, post_id):
+    promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+    if request.method == 'POST':
+        form = PromotionCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = promotion_detail
+            comment.save()
+
+            newform = PromotionCommentForm()
+            promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+            promotion_comments = Promotion_comment.objects.filter(
+                post_id = post_id
+            )
+            return render(request, 'promotionpost.html', {'promotion': promotion_detail, 'promotion_comments': promotion_comments, 'form': newform})
+        else:
+            return redirect('home')
+    else:
+        newform = PromotionCommentForm()
+        promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
+        promotion_comments = Promotion_comment.objects.filter(
+            post_id = post_id
+        )
+        return render(request, 'promotionpost.html', {'promotion':  promotion_detail, 'promotion_comments': promotion_comments, 'form': newform})
+
+
+def promotion_new(request):
+    # 1. 입력된 내용을 처리하는 기능 -> POST
+    if request.method == 'POST':
+        form = PromotionPostForm(request.POST, request.FILES) 
+        if form.is_valid():
+            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+            # 저장하지 않고 모델 객체 반환
+            post = form.save(commit=False)
+            post.author = request.user
+            post.pub_date = timezone.now()
+            post.save()
+            return redirect('promotion_detail', post_id=post.id)
+        else:
+            return redirect('promotion')
+
+    # 2. 빈 페이지를 띄워주는 기능 -> GET
+    else:
+        form = PromotionPostForm()
+        return render(request, 'newpromotion.html', {'form': form})
 
 def qna(request):
+    qna_posts = QnA_post.objects.all()
+    return render(request, 'qnaboard.html', {'qna_posts': qna_posts})
+
+def qna_detail(request, post_id):
+    qna_detail = get_object_or_404(QnA_post, pk = post_id)
+    if request.method == 'POST':
+        form = QnACommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = qna_detail
+            comment.save()
+
+            newform = QnACommentForm()
+            qna_detail = get_object_or_404(QnA_post, pk = post_id)
+            qna_comments = QnA_comment.objects.filter(
+                post_id = post_id
+            )
+            return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+        else:
+            return redirect('home')
+    else:
+        newform = QnACommentForm()
+        qna_detail = get_object_or_404(QnA_post, pk = post_id)
+        qna_comments = QnA_comment.objects.filter(
+            post_id = post_id
+        )
+        return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+
+
+def qna_new(request):
+    # 1. 입력된 내용을 처리하는 기능 -> POST
+    if request.method == 'POST':
+        form = QnAPostForm(request.POST, request.FILES) 
+        if form.is_valid():
+            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+            # 저장하지 않고 모델 객체 반환
+            post = form.save(commit=False)
+            post.author = request.user
+            post.pub_date = timezone.now()
+            post.save()
+            return redirect('qna_detail', post_id=post.id)
+        else:
+            return redirect('qna')
+
+    # 2. 빈 페이지를 띄워주는 기능 -> GET
+    else:
+        form = QnAPostForm()
+        return render(request, 'newqna.html', {'form': form})
+
+def review(request):
+    return render(request, 'reviewboard.html')
+
+def oneonone(request):
+    oneonone_posts = Oneonone_post.objects.all()
+    return render(request, 'oneononeboard.html', {'oneonone_posts': oneonone_posts})
+
+
+def oneonone_detail(request, post_id):
+    oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.user_type == 1 or request.user.id == oneonone_detail.author_id:
+        if request.method == 'POST':
+            form = OneononeCommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.post = oneonone_detail
+                comment.save()
+
+                newform = OneononeCommentForm()
+                oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
+                oneonone_comments = Oneonone_comment.objects.filter(
+                    post_id = post_id
+                )
+                return render(request, 'oneononepost.html', {'oneonone': oneonone_detail, 'oneonone_comments': oneonone_comments, 'form': newform})
+            else:
+                return redirect('home')
+        else:
+            newform = OneononeCommentForm()
+            oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
+            oneonone_comments = Oneonone_comment.objects.filter(
+                post_id = post_id
+            )
+            return render(request, 'oneononepost.html', {'oneonone': oneonone_detail, 'oneonone_comments': oneonone_comments, 'form': newform})
+    else:
+        return render(request, 'warning.html')
+
+
+def oneonone_new(request):
+    if request.user.user_type == 0 or request.user.user_type == 1 or request.user.user_type == 3:
+        # 1. 입력된 내용을 처리하는 기능 -> POST
+        if request.method == 'POST':
+            form = OneononePostForm(request.POST) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('oneonone_detail', post_id=post.id)
+            else:
+                return redirect('oneonone')
+
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = OneononePostForm()
+            return render(request, 'newoneonone.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
+
+def oneonone_remove(request, post_id):
+    oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
+    if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
+        oneonone_post.delete()
+        return redirect('oneonone')
+    else:
+        return render(request, 'warning.html')
+
+def oneonone_edit(request, post_id):
+    oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
+    if request.user.id == oneonone_post.author_id:
+        if request.method == 'POST':
+            form = OneononePostForm(request.POST)
+            if form.is_valid():
+                oneonone_post.title = form.cleaned_data['title']
+                oneonone_post.body = form.cleaned_data['body']
+                oneonone_post.post_password = form.cleaned_data['post_password']
+                oneonone_post.save()
+                return redirect('oneonone_detail', post_id=oneonone_post.id)
+        else:
+            form = OneononePostForm(instance=oneonone_post)
+            return render(request, 'editoneonone.html', {'form': form})
+    else:
+        return render(request, 'warning.html')
+
+
+def promotion(request):
+    promotions = Promotion_post.objects
+    return render(request, 'promotionboard.html', {'promotions':promotions})
+
+def promotionWrite(request):
+    user_type=request.user.user_type
+    if user_type == 0 or user_type == 1:
+        return render(request, 'promotionwrite.html')
+    return render(request, 'promotionwrite.html') #권한과 상관없이 이동가능하게 하였음. 추후 수정
+    #return redirect('promotion')
+
+def promotionCreate(request):
+    promotion = Promotion_post()
+    if request.method == "POST":
+        promotion.title = request.POST['title']
+        promotion.body = request.POST['body']
+        promotion.pub_date = timezone.datetime.now()
+        promotion.save() # 쿼리셋 메소드 (데이터베이스에 저장)
+        
+        prom_img=request.FILES['picture']
+        os.makedirs(("static/userimage/promotion"+str(promotion.id)))
+        promotion.image = "userimage/promotion"+str(promotion.id)+"/"+prom_img.name
+        fs=FileSystemStorage()
+        fn=fs.save("promotion"+str(promotion.id)+"/"+prom_img.name,prom_img)
+        promotion.save()
+
+        return redirect('../'+str(promotion.id))
+    return render(request, 'promotionboard.html')
+
+def promotionDetail(request, promotion_id):
+    details = get_object_or_404(Promotion_post, pk = promotion_id)
+    return render(request, 'promotiondetail.html', {'details':details})
+
+def promotionComment(request, promotion_id):
+    details = get_object_or_404(Promotion_post, pk = promotion_id)
+    #if request.method == 'POST':
+    return render(request, 'promotiondetail.html', {'details':details})
+
+def qna(request):
+    qnas = QnA_post.objects
+    return render(request, 'qnaboard.html',{'qnas':qnas})
+
+def qnaWrite(request):
+    user_type=request.user.user_type
+    if user_type == 3:
+        return render(request, 'qnawrite.html')
+    return render(request, 'qnawrite.html') #권한과 상관없이 이동가능하게 하였음. 추후 수정
+    #return redirect('qna')
+
+def qnaCreate(request):
+    qna = QnA_post()
+    if request.method == "POST":
+        qna.title = request.POST['title']
+        qna.body = request.POST['body']
+        qna.pub_date = timezone.datetime.now()
+        qna.save() # 쿼리셋 메소드 (데이터베이스에 저장)
+        return redirect('../'+str(qna.id))
     return render(request, 'qnaboard.html')
 
+def qnaDetail(request, qna_id):
+    details = get_object_or_404(QnA_post, pk = qna_id)
+    return render(request, 'qnadetail.html', {'details':details})
 
-def review1_board(request, page):
+# def qnaComment(request, qna_id):
+#     details = get_object_or_404(QnA_post, pk = qna_id)
+#     return render(request, 'qnadetail.html', {'details':details})
+
+
+def review1_board(request):
     if request.method == "GET":
         review1_posts = Review1_post.objects.all()
-        if request.GET["university"] != "":
-            review1_posts = review1_posts.filter(university=request.GET["university"])
-        if request.GET["major"] != "":
-            review1_posts = review1_posts.filter(major=request.GET["major"])
-        if request.GET["major_type"] != "":
-            review1_posts = review1_posts.filter(major_type=request.GET["major_type"])
-        if request.GET["region"] != "":
-            review1_posts = review1_posts.filter(region=request.GET["region"])
-
+        try:
+            if request.GET["university"] != "":
+                review1_posts = review1_posts.filter(university=request.GET["university"])
+            if request.GET["major"] != "":
+                review1_posts = review1_posts.filter(major=request.GET["major"])
+            if request.GET["major_type"] != "":
+                review1_posts = review1_posts.filter(major_type=request.GET["major_type"])
+            if request.GET["region"] != "":
+                review1_posts = review1_posts.filter(region=request.GET["region"])
+        except:
+            pass
         # review1_posts = 0
         return render(request, 'review1_board.html',{'review1_posts' : review1_posts})
 
@@ -59,8 +396,8 @@ def review1_post_create(request):
     if request.method == "GET":
         return render(request, 'review1_post_create.html')
     else:
-        # if request.user.user_type == 0 or request.user.user_type == 1:
-        if request.user.user_type != 100:
+        if request.user.user_type == 0 or request.user.user_type == 1:
+        # if request.user.user_type != 100:
             new_review1_post = Review1_post()
             new_review1_post.title = request.POST['title']
             new_review1_post.user =  request.user.username
@@ -100,23 +437,25 @@ def review1_post_create(request):
 
             review1_posts = Review1_post.objects.all()
     # return render(request, 'post_list.html',{'posts' : posts})
-            return redirect('review1_board', page=1)
+            return redirect('review1_board')
         else:
-            return redirect('review1_board', page=1)
+            return redirect('review1_board')
 
 
-def review2_board(request, page):
+def review2_board(request):
     if request.method == "GET":
         review2_posts = Review2_post.objects.all()
-        if request.GET["university"] != "":
-            review2_posts = review2_posts.filter(university=request.GET["university"])
-        if request.GET["major"] != "":
-            review2_posts = review2_posts.filter(major=request.GET["major"])
-        if request.GET["major_type"] != "":
-            review2_posts = review2_posts.filter(major_type=request.GET["major_type"])
-        if request.GET["region"] != "":
-            review2_posts = review2_posts.filter(region=request.GET["region"])
-
+        try:
+            if request.GET["university"] != "":
+                review2_posts = review2_posts.filter(university=request.GET["university"])
+            if request.GET["major"] != "":
+                review2_posts = review2_posts.filter(major=request.GET["major"])
+            if request.GET["major_type"] != "":
+                review2_posts = review2_posts.filter(major_type=request.GET["major_type"])
+            if request.GET["region"] != "":
+                review2_posts = review2_posts.filter(region=request.GET["region"])
+        except:
+            pass
         # review2_posts = 0
         return render(request, 'review2_board.html',{'review2_posts' : review2_posts})
 
@@ -144,8 +483,8 @@ def review2_post_create(request):
     if request.method == "GET":
         return render(request, 'review2_post_create.html')
     else:
-        # if request.user.user_type == 0 or request.user.user_type == 1:
-        if request.user.user_type != 100:
+        if request.user.user_type == 0 or request.user.user_type == 1:
+        # if request.user.user_type != 100:
             new_review2_post = Review2_post()
             new_review2_post.title = request.POST['title']
             new_review2_post.user =  request.user.username
@@ -185,7 +524,6 @@ def review2_post_create(request):
 
             review2_posts = Review2_post.objects.all()
     # return render(request, 'post_list.html',{'posts' : posts})
-            return redirect('review2_board', page=1)
+            return redirect('review2_board')
         else:
-            return redirect('review2_board', page=1)
-
+            return redirect('review2_board')
