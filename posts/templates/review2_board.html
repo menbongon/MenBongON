@@ -1,4 +1,7 @@
-{% load static %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
 
 <h1>review2_board.html</h1>
 
@@ -54,3 +57,5 @@
 <form method="get" action="{% url 'review2_post_create' %}">
     <button type="submit">글 작성</button>
 </form>
+
+{% endblock %}

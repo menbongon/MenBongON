@@ -1,4 +1,7 @@
-{% load static %}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
 <h2>글 제목: {{review2_post.title}}</h2>
 
 <div>
@@ -51,3 +54,5 @@
 
     <input type="submit" value="submit" />
 </form>
+
+{% endblock %}
