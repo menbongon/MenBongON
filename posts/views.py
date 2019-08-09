@@ -12,6 +12,11 @@ import logging
 import os
 
 def notice(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     notice_posts = Notice_post.objects.all()
     # notice_list = Notice_post.objects.all()
     # paginator = Paginator(notice_list, 10)
@@ -19,6 +24,11 @@ def notice(request):
     return render(request, 'noticeboard.html', {'notice_posts': notice_posts})
 
 def notice_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     notice_detail = get_object_or_404(Notice_post, pk = post_id)
     if request.method == 'POST':
         form = NoticeCommentForm(request.POST)
@@ -46,6 +56,11 @@ def notice_detail(request, post_id):
 
 
 def notice_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     # 1. 입력된 내용을 처리하는 기능 -> POST
     if request.user.user_type == 0:
         if request.method == 'POST':
@@ -69,6 +84,11 @@ def notice_new(request):
         return render(request, 'warning.html')
 
 def notice_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     notice = get_object_or_404(Notice_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
         notice.delete()
@@ -77,6 +97,11 @@ def notice_remove(request, post_id):
         return render(request, 'warning.html')
 
 def notice_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     notice = get_object_or_404(Notice_post, pk = post_id)
     if request.user.id == notice.author_id:
         if request.method == 'POST':
@@ -94,10 +119,20 @@ def notice_edit(request, post_id):
         return render(request, 'warning.html')
 
 def promotion(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     promotion_posts = Promotion_post.objects.all()
     return render(request, 'promotionboard.html', {'promotion_posts': promotion_posts})
 
 def promotion_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
     if request.method == 'POST':
         form = PromotionCommentForm(request.POST)
@@ -125,6 +160,11 @@ def promotion_detail(request, post_id):
 
 
 def promotion_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     # 1. 입력된 내용을 처리하는 기능 -> POST
     if request.user.user_type == 0:
         if request.method == 'POST':
@@ -148,6 +188,11 @@ def promotion_new(request):
         return render(request, 'warning.html')
 
 def promotion_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == promotion_detail.author_id:
         promotion_detail.delete()
@@ -156,6 +201,11 @@ def promotion_remove(request, post_id):
         return render(request, 'warning.html')
 
 def promotion_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
     if request.user.id == promotion_detail.author_id:
         if request.method == 'POST':
@@ -173,10 +223,20 @@ def promotion_edit(request, post_id):
         return render(request, 'warning.html')
 
 def qna(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     qna_posts = QnA_post.objects.all()
     return render(request, 'qnaboard.html', {'qna_posts': qna_posts})
 
 def qna_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
     if request.method == 'POST':
         if request.user.user_type == 2:
@@ -208,6 +268,11 @@ def qna_detail(request, post_id):
 
 
 def qna_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.user.user_type == 3:
     # 1. 입력된 내용을 처리하는 기능 -> POST
         if request.method == 'POST':
@@ -231,6 +296,11 @@ def qna_new(request):
         return render(request, 'warning.html')
 
 def qna_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == qna_detail.author_id:
         qna_detail.delete()
@@ -239,6 +309,11 @@ def qna_remove(request, post_id):
         return render(request, 'warning.html')
 
 def qna_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
     if request.user.id == qna_detail.author_id:
         if request.method == 'POST':
@@ -258,14 +333,29 @@ def qna_edit(request, post_id):
 
 
 def review(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     return render(request, 'reviewboard.html')
 
 def oneonone(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     oneonone_posts = Oneonone_post.objects.all()
     return render(request, 'oneononeboard.html', {'oneonone_posts': oneonone_posts})
 
 
 def oneonone_detail(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     oneonone_detail = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.user_type == 0 or request.user.user_type == 1 or request.user.id == oneonone_detail.author_id:
         if request.method == 'POST':
@@ -296,6 +386,11 @@ def oneonone_detail(request, post_id):
 
 
 def oneonone_new(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.user.user_type == 0 or request.user.user_type == 1 or request.user.user_type == 3:
         # 1. 입력된 내용을 처리하는 기능 -> POST
         if request.method == 'POST':
@@ -320,6 +415,11 @@ def oneonone_new(request):
 
 
 def oneonone_remove(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.user_type == 0 or request.user.id == oneonone_post.author_id:
         oneonone_post.delete()
@@ -328,6 +428,11 @@ def oneonone_remove(request, post_id):
         return render(request, 'warning.html')
 
 def oneonone_edit(request, post_id):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     oneonone_post = get_object_or_404(Oneonone_post, pk = post_id)
     if request.user.id == oneonone_post.author_id:
         if request.method == 'POST':
@@ -345,6 +450,11 @@ def oneonone_edit(request, post_id):
         return render(request, 'warning.html')
 
 def review1_board(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method == "GET":
         review1_posts = Review1_post.objects.all()
         try:
@@ -362,6 +472,11 @@ def review1_board(request):
         return render(request, 'review1_board.html',{'review1_posts' : review1_posts})
 
 def review1_post_detail(request,pk):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method =="GET":
         review1_post = Review1_post.objects.get(id=pk)
         review1_post_comments = Review1_post_comment.objects.filter(commented_post=pk)
@@ -383,6 +498,11 @@ def review1_post_detail(request,pk):
         return render(request, 'review1_post_detail.html',{'review1_post' : review1_post, 'review1_post_comments' : review1_post_comments, 'review1_post_images' : review1_post_images})
 
 def review1_post_create(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method == "GET":
         return render(request, 'review1_post_create.html')
     else:
@@ -433,6 +553,11 @@ def review1_post_create(request):
 
 
 def review2_board(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method == "GET":
         review2_posts = Review2_post.objects.all()
         try:
@@ -450,6 +575,11 @@ def review2_board(request):
         return render(request, 'review2_board.html',{'review2_posts' : review2_posts})
 
 def review2_post_detail(request,pk):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method == "GET":
         review2_post = Review2_post.objects.get(id=pk)
         review2_post_comments = Review2_post_comment.objects.filter(commented_post=pk)
@@ -471,6 +601,11 @@ def review2_post_detail(request,pk):
         return render(request, 'review2_post_detail.html',{'review2_post' : review2_post, 'review2_post_comments' : review2_post_comments, 'review2_post_images' : review2_post_images})
         
 def review2_post_create(request):
+    try:
+        username=request.user.username
+        password=request.user.password
+    except:
+        redirect('intro')
     if request.method == "GET":
         return render(request, 'review2_post_create.html')
     else:
