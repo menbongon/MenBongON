@@ -19,3 +19,7 @@ def admission(request):
 
 def entrance_info(request):
     return render(request, 'entrance_info.html')
+
+
+def programmer(request):
+    return render(request, 'programmerintro.html')

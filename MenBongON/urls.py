@@ -20,6 +20,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('board/', include('posts.urls')),
     path('mypage/', mypage.views.mypage, name="mypage"),
+    path('programmer/', menbongapp.views.programmer, name="programmer"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
