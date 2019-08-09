@@ -105,6 +105,8 @@
 
             <form method="POST" action="{% url 'signup' %}">
                 {% csrf_token %}
+                
+                {{error_msg}}
                 <span class="all type0 type1 type2 type3" style="display:none">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">아이디</label>
