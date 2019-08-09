@@ -126,23 +126,26 @@ def promotion_detail(request, post_id):
 
 def promotion_new(request):
     # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = PromotionPostForm(request.POST, request.FILES) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('promotion_detail', post_id=post.id)
-        else:
-            return redirect('promotion')
+    if request.user.user_type == 0:
+        if request.method == 'POST':
+            form = PromotionPostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('promotion_detail', post_id=post.id)
+            else:
+                return redirect('promotion')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = PromotionPostForm()
+            return render(request, 'newpromotion.html', {'form': form})
     else:
-        form = PromotionPostForm()
-        return render(request, 'newpromotion.html', {'form': form})
+        return render(request, 'warning.html')
 
 def promotion_remove(request, post_id):
     promotion_detail = get_object_or_404(Promotion_post, pk = post_id)
@@ -176,21 +179,25 @@ def qna(request):
 def qna_detail(request, post_id):
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
     if request.method == 'POST':
-        form = QnACommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = qna_detail
-            comment.save()
+        if request.user.user_type == 2:
+            form = QnACommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.author = request.user
+                comment.post = qna_detail
+                comment.save()
 
-            newform = QnACommentForm()
-            qna_detail = get_object_or_404(QnA_post, pk = post_id)
-            qna_comments = QnA_comment.objects.filter(
-                post_id = post_id
-            )
-            return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+                newform = QnACommentForm()
+                qna_detail = get_object_or_404(QnA_post, pk = post_id)
+                qna_comments = QnA_comment.objects.filter(
+                    post_id = post_id
+                )
+                return render(request, 'qnapost.html', {'qna': qna_detail, 'qna_comments': qna_comments, 'form': newform})
+            else:
+                return redirect('home')
         else:
-            return redirect('home')
+            return render(request, 'warning.html')
+    
     else:
         newform = QnACommentForm()
         qna_detail = get_object_or_404(QnA_post, pk = post_id)
@@ -201,24 +208,27 @@ def qna_detail(request, post_id):
 
 
 def qna_new(request):
+    if request.user.user_type == 3:
     # 1. 입력된 내용을 처리하는 기능 -> POST
-    if request.method == 'POST':
-        form = QnAPostForm(request.POST, request.FILES) 
-        if form.is_valid():
-            # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
-            # 저장하지 않고 모델 객체 반환
-            post = form.save(commit=False)
-            post.author = request.user
-            post.pub_date = timezone.now()
-            post.save()
-            return redirect('qna_detail', post_id=post.id)
-        else:
-            return redirect('qna')
+        if request.method == 'POST':
+            form = QnAPostForm(request.POST, request.FILES) 
+            if form.is_valid():
+                # is_valid는 입력값 없을 시 등 예외시 오류 띄워줌.
+                # 저장하지 않고 모델 객체 반환
+                post = form.save(commit=False)
+                post.author = request.user
+                post.pub_date = timezone.now()
+                post.save()
+                return redirect('qna_detail', post_id=post.id)
+            else:
+                return redirect('qna')
 
-    # 2. 빈 페이지를 띄워주는 기능 -> GET
+        # 2. 빈 페이지를 띄워주는 기능 -> GET
+        else:
+            form = QnAPostForm()
+            return render(request, 'newqna.html', {'form': form})    
     else:
-        form = QnAPostForm()
-        return render(request, 'newqna.html', {'form': form})
+        return render(request, 'warning.html')
 
 def qna_remove(request, post_id):
     qna_detail = get_object_or_404(QnA_post, pk = post_id)
