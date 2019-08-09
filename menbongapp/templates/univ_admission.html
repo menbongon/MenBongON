@@ -1,3 +1,7 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
 <h1>입학처 링크 소개 페이지입니다.</h1>
 
 <br>
@@ -5,3 +9,5 @@
     <p>{{univ.name}}: <a href="{{univ.admission_link}}">입학처링크</a> </p>
 {% endfor %}
 <br>
+
+{% endblock %}

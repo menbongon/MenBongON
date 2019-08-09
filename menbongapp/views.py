@@ -16,3 +16,6 @@ def menbong(request):
 def admission(request):
     university = University.objects.all()
     return render(request, 'univ_admission.html', {'university':university})
+
+def entrance_info(request):
+    return render(request, 'entrance_info.html')
