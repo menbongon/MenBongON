@@ -34,6 +34,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        입뿌
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'menbong' %}">봉사단 소개</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'entrance_info' %}">입시전형</a>
+                        <a class="dropdown-item" href="{% url 'admission' %}">대학교 입학처</a>
+                
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'notice' %}">공지게시판</a>
                     </li>
