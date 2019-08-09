@@ -108,13 +108,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'menbongapp', 'static'),
 ]
 
-# STATICFILES_DIRS = (os.path.join('static'),)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
-
-# MEDIA_URL = '/static/mediaimage/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/mediaimage')

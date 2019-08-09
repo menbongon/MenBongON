@@ -15,7 +15,6 @@ urlpatterns = [
     path('promotion/<int:post_id>', views.promotion_detail, name="promotion_detail"),
    
     path('qna/', views.qna, name="qna"),
-
     path('qna/new/', views.qna_new, name="newqna"),
     path('qna/<int:post_id>', views.qna_detail, name="qna_detail"), 
 

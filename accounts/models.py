@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-
 class User(AbstractUser):  
     name = models.CharField(max_length=500,null=True, blank=True)
     phone_number = models.CharField(max_length=500,null=True, blank=True)
@@ -25,6 +24,7 @@ class Junior(models.Model):
     major_type = models.CharField(max_length=500,null=True, blank=True)
     department = models.CharField(max_length=500,null=True, blank=True)
 
+
 class Student(models.Model):
     user_id = models.IntegerField(null=True, blank=True)
     university = models.CharField(max_length=500,null=True, blank=True)
@@ -36,3 +36,10 @@ class Mentee(models.Model):
     user_id = models.IntegerField(null=True, blank=True)
     highschool = models.CharField(max_length=500,null=True, blank=True)
     
+class University(models.Model):
+    name = models.CharField(max_length=20,null=True, blank=True)
+    admission_link = models.CharField(max_length=500,null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+        

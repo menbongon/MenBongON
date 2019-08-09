@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from .models import *
 from django.contrib import auth
 import logging
 from .models import *
@@ -57,7 +58,8 @@ def signup(request):
             auth.login(request, user)
             return redirect('home')
 
-    return render(request, 'signup.html')
+    university = University.objects.all()
+    return render(request, 'signup.html', {'university':university})
 
 def login(request):
     if request.method == "POST":
