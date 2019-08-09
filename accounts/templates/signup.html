@@ -77,7 +77,13 @@
     <span class="all type0 type1 type2" style="display:none">
         대학교
         <br>
-        <input name="university" type="text" value="">
+        <select name="university">
+            {% for univ in university %}
+                <option value="{{univ.name}}">
+                    {{univ.name}}
+                </option>
+            {% endfor %}
+        </select>
         <br>
     </span>
     <span class="all type0 type1 type2" style="display:none">
