@@ -17,7 +17,7 @@
     <p>내용 : {{review2_post.content|linebreaks}}</p>
     
     {% for review2_post_image in review2_post_images %}
-        <img src="{% static review2_post_image.image_url %}">
+        <img src="{{ review2_post_image.image_url }}">
     {% endfor %}
 </div>
 
@@ -37,7 +37,7 @@
             <td>{{ review2_post_comment.id }}</td>
             <td>{{ review2_post_comment.user }}</td>
             <td>{{ review2_post_comment.content }}</td>
-            <td>{{ review2_post_comment.posted_date }}</td>
+            <td>{{ review2_post_comment.commented_date }}</td>
         </tr>
         {% endfor %}
     </tbody>

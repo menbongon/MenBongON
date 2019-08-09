@@ -45,7 +45,7 @@
             <td>{{ review2_post.content }}</td>
             <td>{{ review2_post.posted_date }}</td>
             <td>{{ review2_post.image_url }}</td>
-            <td><img src="{% static review2_post.image_url %}"></td>   
+            <td><img src="{{ review2_post.image_url }}"></td>   
         </tr>
         {% endfor %}
     </tbody>

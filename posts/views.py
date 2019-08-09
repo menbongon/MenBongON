@@ -7,6 +7,7 @@ from .models import *
 from .forms import *
 from django.http import HttpResponse
 import os
+import logging
 
 from posts.models import Review1_post, Review2_post, Review1_post_comment, Review2_post_comment, Review1_post_image, Review2_post_image
 
@@ -287,9 +288,9 @@ def oneonone_edit(request, post_id):
         return render(request, 'warning.html')
 
 
-def promotion(request):
-    promotions = Promotion_post.objects
-    return render(request, 'promotionboard.html', {'promotions':promotions})
+# def promotion(request):
+#     promotions = Promotion_post.objects
+#     return render(request, 'promotionboard.html', {'promotions':promotions})
 
 def promotionWrite(request):
     user_type=request.user.user_type
@@ -325,9 +326,9 @@ def promotionComment(request, promotion_id):
     #if request.method == 'POST':
     return render(request, 'promotiondetail.html', {'details':details})
 
-def qna(request):
-    qnas = QnA_post.objects
-    return render(request, 'qnaboard.html',{'qnas':qnas})
+# def qna(request):
+#     qnas = QnA_post.objects
+#     return render(request, 'qnaboard.html',{'qnas':qnas})
 
 def qnaWrite(request):
     user_type=request.user.user_type
@@ -389,9 +390,10 @@ def review1_post_detail(request,pk):
 
         review1_post = Review1_post.objects.get(id=pk)
         review1_post_comments = Review1_post_comment.objects.filter(commented_post=pk)
+        review1_post_images = Review1_post_image.objects.filter(imaged_post=pk)
         
         return render(request, 'review1_post_detail.html',{'review1_post' : review1_post, 'review1_post_comments' : review1_post_comments, 'review1_post_images' : review1_post_images})
-        
+
 def review1_post_create(request):
     if request.method == "GET":
         return render(request, 'review1_post_create.html')
@@ -417,14 +419,14 @@ def review1_post_create(request):
             new_review1_post.save()
 
             a = request.FILES['picture']
-            new_review1_post.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+            new_review1_post.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
             
             for a in request.FILES.getlist('picture'):
                 # a=request.FILES['picture']
-                # new_review1_post.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+                # new_review1_post.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
                 new_review1_post_image = Review1_post_image()
                 new_review1_post_image.imaged_post = new_review1_post.id
-                new_review1_post_image.image_url = "mediaimage/review1/post/image"+str(new_review1_post.id)+"/"+a.name
+                new_review1_post_image.image_url = "/media/review1/post/image"+str(new_review1_post.id)+"/"+a.name
                 new_review1_post_image.save()
 
                 fs=FileSystemStorage()
@@ -476,6 +478,7 @@ def review2_post_detail(request,pk):
 
         review2_post = Review2_post.objects.get(id=pk)
         review2_post_comments = Review2_post_comment.objects.filter(commented_post=pk)
+        review1_post_images = Review1_post_image.objects.filter(imaged_post=pk)
         
         return render(request, 'review2_post_detail.html',{'review2_post' : review2_post, 'review2_post_comments' : review2_post_comments, 'review2_post_images' : review2_post_images})
         
@@ -504,14 +507,14 @@ def review2_post_create(request):
             new_review2_post.save()
 
             a = request.FILES['picture']
-            new_review2_post.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+            new_review2_post.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
             
             for a in request.FILES.getlist('picture'):
                 # a=request.FILES['picture']
-                # new_review2_post.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+                # new_review2_post.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
                 new_review2_post_image = Review2_post_image()
                 new_review2_post_image.imaged_post = new_review2_post.id
-                new_review2_post_image.image_url = "mediaimage/review2/post/image"+str(new_review2_post.id)+"/"+a.name
+                new_review2_post_image.image_url = "/media/review2/post/image"+str(new_review2_post.id)+"/"+a.name
                 new_review2_post_image.save()
 
                 fs=FileSystemStorage()

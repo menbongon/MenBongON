@@ -1,46 +1,4 @@
-<script>
-    function change0() {
-        var elements = document.getElementsByClassName("all");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "none";
-        }
-        var elements = document.getElementsByClassName("type0");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "block";
-        }
-    }
-    function change1() {
-        var elements = document.getElementsByClassName("all");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "none";
-        }
-        var elements = document.getElementsByClassName("type1");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "block";
-        }
-    }
-    function change2() {
-        var elements = document.getElementsByClassName("all");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "none";
-        }
-        var elements = document.getElementsByClassName("type2");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "block";
-        }
-    }
-    function change3() {
-        var elements = document.getElementsByClassName("all");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "none";
-        }
-        var elements = document.getElementsByClassName("type3");
-        for(var i=0;i<elements.length;i++){
-            elements[i].style.display = "block";
-        }
-    }
-</script>
-        
+
 
 <h1>signup.html</h1>
 <button onclick="change0();">간부</button>
@@ -66,6 +24,12 @@
         비밀번호확인
         <br>
         <input name="password_check" type="password" value="">
+        <br>
+    </span>
+    <span class="all type0 type1 type2 type3" style="display:none">
+        이름
+        <br>
+        <input name="name" type="text" value="">
         <br>
     </span>
     <span class="all type0 type1 type2 type3" style="display:none">
@@ -145,6 +109,61 @@
         </select>
         <br>
     </span>
+    <span class="all type0 type1 type2 type3" style="display:none">
+        <input id="user_type" type="hidden" name="user_type">
+    </span>
     <input type="submit" value="완료">
 
 </form>
+
+<script>
+        function change0() {
+            var elements = document.getElementsByClassName("all");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "none";
+            }
+            var elements = document.getElementsByClassName("type0");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "block";
+            }
+            var user_type = document.getElementById("user_type");
+            user_type.value = 0;
+        }
+        function change1() {
+            var elements = document.getElementsByClassName("all");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "none";
+            }
+            var elements = document.getElementsByClassName("type1");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "block";
+            }
+            var user_type = document.getElementById("user_type");
+            user_type.value = 1;
+        }
+        function change2() {
+            var elements = document.getElementsByClassName("all");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "none";
+            }
+            var elements = document.getElementsByClassName("type2");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "block";
+            }
+            var user_type = document.getElementById("user_type");
+            user_type.value = 2;
+        }
+        function change3() {
+            var elements = document.getElementsByClassName("all");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "none";
+            }
+            var elements = document.getElementsByClassName("type3");
+            for(var i=0;i<elements.length;i++){
+                elements[i].style.display = "block";
+            }
+            var user_type = document.getElementById("user_type");
+            user_type.value = 3;
+        }
+    </script>
+            
