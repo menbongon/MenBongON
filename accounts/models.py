@@ -19,6 +19,9 @@ class Senior(models.Model):
     department = models.CharField(max_length=100,null=True, blank=True)
     menbong = models.IntegerField(null=True, blank=True)
     
+    def __str__(self):
+        return str(self.user_id)
+
 class Junior(models.Model):
     user_id = models.IntegerField(null=True, blank=True)
     university = models.CharField(max_length=100,null=True, blank=True)
@@ -27,6 +30,9 @@ class Junior(models.Model):
     major_type = models.CharField(max_length=100,null=True, blank=True)
     department = models.CharField(max_length=100,null=True, blank=True)
     menbong = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.user_id)
 
 class Student(models.Model):
     user_id = models.IntegerField(null=True, blank=True)
@@ -35,9 +41,15 @@ class Student(models.Model):
     student_number = models.CharField(max_length=100,null=True, blank=True)
     major_type = models.CharField(max_length=100,null=True, blank=True)
     
+    def __str__(self):
+       return str(self.user_id)   
+
 class Mentee(models.Model):
     user_id = models.IntegerField(null=True, blank=True)
     highschool = models.CharField(max_length=100,null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.user_id)
     
 class University(models.Model):
     name = models.CharField(max_length=20,null=True, blank=True)
