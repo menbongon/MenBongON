@@ -20,7 +20,9 @@ def signup(request):
             user.name = request.POST["name"]
             user.email = request.POST["email"]
             user.phone_number = request.POST["phone_number"]
+            user.phone_number2 = request.POST["phone_number2"]
             user.region = request.POST["region"]
+            user.nickname = request.POST["nickname"]
             user.user_type = request.POST["user_type"]
             user.save()
             if user.user_type == "0":
