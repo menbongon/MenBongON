@@ -57,4 +57,9 @@ class University(models.Model):
 
     def __str__(self):
         return self.name
-        
+
+class Major_type(models.Model):
+    major_type = models.CharField(max_length=100,null=True, blank=True)
+
+    def __str__(self):
+        return self.major_type

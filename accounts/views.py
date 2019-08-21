@@ -1,12 +1,37 @@
+import os
 from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from .models import *
 from django.contrib import auth
 import logging
 from .models import *
 
+import csv
+
 User = get_user_model()
+
+#csv 파일을 읽어와서 대학교 객체 생성
+def generate(request):
+    with open(os.path.dirname(os.path.realpath(__file__)) + '/data/University.csv', "r") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            univ, created = University.objects.get_or_create(
+                name=row[0],
+                admission_link=row[1],
+                )
+            if created == True:
+                univ.save()
+    
+    with open(os.path.dirname(os.path.realpath(__file__)) + '/data/Major_type.csv', "r") as f:
+        reader = csv.reader(f)
+        for row in reader:
+            major, created = Major_type.objects.get_or_create(
+                major_type=row[0],
+                )
+            if created == True:
+                major.save()
+
+    return redirect('home')
 
 # Create your views here.
 def signup(request):
@@ -58,15 +83,14 @@ def signup(request):
                 mentee.highschool = request.POST["highschool"]
                 mentee.save()
 
-
-
             auth.login(request, user)
             return redirect('home')
         else:
             return render(request, 'signup.html', {'error_msg':"비밀번호와 확인이 다릅니다."})
          
     university = University.objects.all()
-    return render(request, 'signup.html', {'university':university})
+    major_type = Major_type.objects.all()
+    return render(request, 'signup.html', {'university':university}, {'major_type':major_type})
 
 def login(request):
     if request.method == "POST":
