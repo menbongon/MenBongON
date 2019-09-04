@@ -29,4 +29,6 @@
     $python manage.py makemigrations
     $python manage.py migarate
     $python manage.py runserver
-- 해당 과정을 진행하지 않을 시 회원가입 및 다른 기능들이 작동하지 않습니다.
+- 해당 과정을 진행하지 않을 시 회원가입 및 다른 기능들이 작동하지 않습니다.   
+    $pip install django-csv-importer==0.1.1
+- csv파일을 DB에 자동으로 읽어올 수 있도록 하기위해 필요한 명령어
