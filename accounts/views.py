@@ -90,7 +90,7 @@ def signup(request):
          
     university = University.objects.all()
     major_type = Major_type.objects.all()
-    return render(request, 'signup.html', {'university':university}, {'major_type':major_type})
+    return render(request, 'signup.html', {'university':university, 'major_type':major_type})
 
 def login(request):
     if request.method == "POST":
