@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from .models import *
 from django.contrib import auth
 import logging
-from .models import *
 
 User = get_user_model()
 
