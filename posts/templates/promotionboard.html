@@ -62,7 +62,9 @@
                     {% for post in promotion_posts %}
                     <div class="col-md-4">
                       <div class="card mb-4 shadow-sm">
+                        {% if post.image.url != null %}
                         <img src="{{post.image.url}}" height= 400 alt="">
+                        {% endif %}
                         <div class="card-body">
                          <h5 class="card-title">제목 : {{post.title}}</h5>
                         <p class="card-text">본문 미리보기 : {{post.summary}}</p>
