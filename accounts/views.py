@@ -112,3 +112,7 @@ def logout(request):
 def test(request):
     logging.error(request.user.username)
     return redirect('home')
+
+def find(request):
+    return render(request, 'find.html')
+

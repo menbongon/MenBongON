@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout/', views.logout, name="logout"),
     path('test/', views.test, name="test"),
     path('model/',views.generate, name="generate"),
+    path('find/', views.find, name="find"),
 ]
