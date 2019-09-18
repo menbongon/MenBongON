@@ -5,6 +5,7 @@ from .models import *
 from django.contrib import auth
 import logging
 from .models import *
+from posts.models import *
 
 User = get_user_model()
 
@@ -54,7 +55,15 @@ def mypage(request):
         return redirect('home')
     else:  
         # university = University.objects.all()
+
+        my_notice_posts = Notice_post.objects.all().order_by('-pub_date').filter(author_id=request.user.id)
+        my_oneonone_posts = Oneonone_post.objects.all().order_by('-pub_date').filter(author_id=request.user.id)
+        my_promotion_posts = Promotion_post.objects.all().order_by('-pub_date').filter(author_id=request.user.id)
+        my_qna_posts = QnA_post.objects.all().order_by('-pub_date').filter(author_id=request.user.id)
+        my_review1_posts = Review1_post.objects.all().order_by('-posted_date').filter(user=request.user.id)
+        my_review2_posts = Review2_post.objects.all().order_by('-posted_date').filter(user=request.user.id)
+
         userType = request.user.user_type
-        return render(request, 'mypage.html', {'userType': userType})
+        return render(request, 'mypage.html', {'userType': userType, 'my_notice_posts':my_notice_posts, 'my_oneonone_posts':my_oneonone_posts, 'my_promotion_posts':my_promotion_posts, 'my_qna_posts':my_qna_posts, 'my_review1_posts':my_review1_posts,'my_review2_posts':my_review2_posts})
 
 

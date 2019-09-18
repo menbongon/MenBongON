@@ -250,7 +250,45 @@
     </div>
 
 
+    {% for post in my_notice_posts %}
+    <a href="{% url 'notice_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
 
+    <br><br>
+    
+    {% for post in my_oneonone_posts %}
+    <a href="{% url 'oneonone_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
+
+    <br><br>
+
+    {% for post in my_promotion_posts %}
+    <a href="{% url 'promotion_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
+
+    <br><br>
+
+    {% for post in my_qna_posts %}
+    <a href="{% url 'qna_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
+
+    <br><br>
+
+    {% for post in my_review1_posts %}
+    <a href="{% url 'review1_post_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
+
+    <br><br>
+
+    {% for post in my_review2_posts %}
+    <a href="{% url 'review2_post_detail' post.id %}">{{ post.title }}</a>
+    <br>
+    {% endfor %}
 
     <footer>
         copy
