@@ -8,7 +8,9 @@ import logging
 User = get_user_model()
 
 def myhome(request) :
-    return render(request, 'myhome.html')
+    if request.user.is_authenticated :
+        user = User.objects.get(id=request.user.id)
+    return render(request, 'myhome.html', {'user' : user})
 
 def mypage(request):
     if request.method == 'POST':
