@@ -9,4 +9,6 @@ urlpatterns = [
     path('test/', views.test, name="test"),
     path('model/',views.generate, name="generate"),
     path('find/', views.find, name="find"),
+    path('findid/', views.find_id, name="find_id"),
+    path('findpw/', views.find_pw, name="find_pw"),
 ]

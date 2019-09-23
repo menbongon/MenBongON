@@ -116,3 +116,15 @@ def test(request):
 def find(request):
     return render(request, 'find.html')
 
+def find_id(request):
+    if request.method == "POST":
+        print("1")
+        return render(request, 'intro.html')
+        if request.POST["realname"] == request.POST["email"]:
+            print("2")
+            return render(request, 'intro.html')
+        print("3")
+    return render(request, 'home.html')
+
+def find_pw(request):
+    return render(request, 'find.html')
