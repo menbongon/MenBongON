@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 import accounts.views
-import mypage.views
+import mypage.urls
 import menbongapp.views 
 import posts.views
 
@@ -19,7 +19,7 @@ urlpatterns = [
     path('entrance_info/', menbongapp.views.entrance_info, name="entrance_info"),
     path('accounts/', include('accounts.urls')),
     path('board/', include('posts.urls')),
-    path('mypage/', mypage.views.mypage, name="mypage"),
+    path('mypage/',include('mypage.urls')),
     path('programmer/', menbongapp.views.programmer, name="programmer"),
 ]
 
