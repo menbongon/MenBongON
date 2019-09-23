@@ -7,6 +7,9 @@ import logging
 
 User = get_user_model()
 
+def myhome(request) :
+    return render(request, 'myhome.html')
+
 def mypage(request):
     if request.method == 'POST':
         if request.POST["password"] == request.POST["password_check"]:
@@ -54,6 +57,6 @@ def mypage(request):
     else:  
         # university = University.objects.all()
         userType = request.user.user_type
-        return render(request, 'mypage.html', {'userType': userType})
+        return render(request, 'editprofile.html', {'userType': userType})
 
 
