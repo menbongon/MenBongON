@@ -116,15 +116,22 @@ def test(request):
 def find(request):
     return render(request, 'find.html')
 
-def find_id(request):
+def find_id(request): # name, email
     if request.method == "POST":
-        print("1")
-        return render(request, 'intro.html')
-        if request.POST["realname"] == request.POST["email"]:
-            print("2")
-            return render(request, 'intro.html')
-        print("3")
-    return render(request, 'home.html')
+        user = User.objects.filter(
+            email = request.POST["email"]
+        )
+        if user:
+            user = user.filter(
+                name = request.POST["name"]
+            )
+            if user:
+                user = user.all()[:1].get()
+                info = '회원님의 아이디는 : ' + str(user) + '입니다.'
+                return render(request, 'find.html', {'id_print': info}) # 아이디 알려주기
+    info = '정보에 해당하는 아이디가 존재하지 않습니다.'
+    return render(request, 'find.html', {'id_print': info}) # 없음
 
-def find_pw(request):
+def find_pw(request): # id, name, email // username, name, email
+    # if request.method == "POST":
     return render(request, 'find.html')
