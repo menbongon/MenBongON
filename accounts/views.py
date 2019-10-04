@@ -133,5 +133,22 @@ def find_id(request): # name, email
     return render(request, 'find.html', {'id_print': info}) # 없음
 
 def find_pw(request): # id, name, email // username, name, email
-    # if request.method == "POST":
-    return render(request, 'find.html')
+    
+    if request.method == "POST":
+        user = User.objects.filter(
+            username = request.POST["id"]
+        )
+        if user:
+            user = User.objects.filter(
+                email = request.POST["email"]
+            )
+            if user:
+                user = user.filter(
+                    name = request.POST["name"]
+                )
+                if user:
+                    # 비밀번호 찾기 대응 코드
+                    info = '비밀번호를 찾으시겠습니까?'
+                    return render(request, 'find.html', {'pw_print': info}) # 아이디 알려주기
+    info = '입력하신 정보와 일치하는 정보가 없습니다. 다시 입력해주세요.'
+    return render(request, 'find.html', {'pw_print': info}) # 없음
