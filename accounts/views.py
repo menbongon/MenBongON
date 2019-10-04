@@ -112,3 +112,43 @@ def logout(request):
 def test(request):
     logging.error(request.user.username)
     return redirect('home')
+
+def find(request):
+    return render(request, 'find.html')
+
+def find_id(request): # name, email
+    if request.method == "POST":
+        user = User.objects.filter(
+            email = request.POST["email"]
+        )
+        if user:
+            user = user.filter(
+                name = request.POST["name"]
+            )
+            if user:
+                user = user.all()[:1].get()
+                info = '회원님의 아이디는 : ' + str(user) + '입니다.'
+                return render(request, 'find.html', {'id_print': info}) # 아이디 알려주기
+    info = '정보에 해당하는 아이디가 존재하지 않습니다.'
+    return render(request, 'find.html', {'id_print': info}) # 없음
+
+def find_pw(request): # id, name, email // username, name, email
+    
+    if request.method == "POST":
+        user = User.objects.filter(
+            username = request.POST["id"]
+        )
+        if user:
+            user = User.objects.filter(
+                email = request.POST["email"]
+            )
+            if user:
+                user = user.filter(
+                    name = request.POST["name"]
+                )
+                if user:
+                    # 비밀번호 찾기 대응 코드
+                    info = '비밀번호를 찾으시겠습니까?'
+                    return render(request, 'find.html', {'pw_print': info}) # 아이디 알려주기
+    info = '입력하신 정보와 일치하는 정보가 없습니다. 다시 입력해주세요.'
+    return render(request, 'find.html', {'pw_print': info}) # 없음

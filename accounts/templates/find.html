@@ -1,0 +1,117 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <script language="javascript">
+            function IdCheck() {
+                var form = document.IdFindform;
+        
+                if (!form.name.value)
+                {
+                    alert("이름을 적어주세요");
+                    form.name.focus();
+                    return false;
+                }
+                if (!form.email.value) {
+                    alert("메일을 적어주세요");
+                    form.email.focus();
+                    return false;
+                }
+                form.submit();
+            }
+            function PwCheck() {
+                var form = document.PwFindform;
+        
+                if (!form.id.value)
+                {
+                    alert("아이디를 적어주세요");
+                    form.id.focus();
+                    return false;
+                }
+                if (!form.name.value)
+                {
+                    alert("이름을 적어주세요");
+                    form.name.focus();
+                    return false;
+                }
+                if (!form.email.value) {
+                    alert("메일을 적어주세요");
+                    form.email.focus();
+                    return false;
+                }
+                form.submit();
+            }
+            // window.onload = function(){
+            //     PrintError();
+            //     printID();
+            // }
+            // function PrintError(){
+            //     if (error_print)
+            //     {
+            //         alert(error_print);
+            //         return false;
+            //     }
+            //     alert("실행안됨1");
+            // }
+            // function printID(){
+            //     if (id_print)
+            //     {
+            //         alert("아이디는 "+id_print.id+"입니다.");
+            //         return false;
+            //     }
+            //     alert("실행안됨2");
+            // }
+        </script>
+        <div>
+            <h1>FIND ID</h1>
+            <form method="POST" name="IdFindform" action="{% url 'find_id' %}">
+                {% csrf_token %}
+                <table>
+                    <td>
+                        <div>
+                            <label>이름</label>
+                            <input name="name" type="text" value="" id="exampleFormControlInput1" placeholder="이름">
+                        </div>
+                        <div>
+                            <label>이메일</label>
+                            <input name="email" type="email" value="" id="exampleFormControlInput1" placeholder="이메일">
+                        </div>
+                    </td>
+                    <td>
+                        <input type="button" value="찾기" OnClick="javascript:IdCheck();">
+                    </td>
+                </table>
+            </form>
+            {{id_print}}
+        </div>
+        <div>
+            <h1>FIND PW</h1>
+            <form method="POST" name="PwFindform" action="{% url 'find_pw' %}">
+                {% csrf_token %}
+                <table>
+                    <td>
+                        <div>
+                            <label>아이디</label>
+                            <input name="id" type="text" value="" id="exampleFormControlInput1" placeholder="아이디">
+                        </div>
+                        <div>
+                            <label>이름</label>
+                            <input name="name" type="text" value="" id="exampleFormControlInput1" placeholder="이름">
+                        </div>
+                        <div>
+                            <label>이메일</label>
+                            <input name="email" type="email" value="" id="exampleFormControlInput1" placeholder="이메일">
+                        </div>
+                    </td>
+                    <td>
+                        <td>
+                            <input type="button" value="찾기" OnClick="javascript:PwCheck();">
+                        </td>
+                    </td>
+                </table>
+            </form>
+            {{pw_print}}
+        </div>
+    </body>
+</html>
+
